@@ -16,8 +16,8 @@ cover: assets/images/blog-cover.jpg
 #logo: assets/images/blog-icon.png
 #logo_dark: assets/images/favicon.png
 favicon: assets/images/favicon.png
-production_url: https://s-ayush2903.github.io/
-source_url: https://github.com/s-ayush2903/s-ayush2903.github.io
+# production_url: https://s-ayush2903.github.io/
+# source_url: https://github.com/s-ayush2903/s-ayush2903.github.io
 CNAME: manuelvivo.dev #add cname for website to be created
 
 # Social info
@@ -67,12 +67,12 @@ feed:
 safe: False
 lsi: False
 username: manuelvicnt
-repo: manuelvicnt
+repo: s-ayush2903
 branch: master
-relative_source: ../manuelvivo.dev/
+relative_source: ../s-ayush2903/
 destination: _site
-production_url:  https://manuelvivo.dev/
-source_url:  https://github.com/manuelvicnt/manuelvicnt.github.io
+production_url: https://s-ayush2903.github.io/
+source_url: https://github.com/s-ayush2903/s-ayush2903.github.io
 
 exclude:
   - assets/css
