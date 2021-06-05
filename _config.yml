@@ -67,12 +67,12 @@ feed:
 safe: False
 lsi: False
 username: manuelvicnt
-repo: s-ayush2903
+repo: manuelvicnt
 branch: master
-relative_source: ../s-ayush2903/
+relative_source: ../manuelvivo.dev/
 destination: _site
-production_url: https://s-ayush2903.github.io/
-source_url: https://github.com/s-ayush2903/s-ayush2903.github.io
+production_url:  https://manuelvivo.dev/
+source_url:  https://github.com/manuelvicnt/manuelvicnt.github.io
 
 exclude:
   - assets/css
