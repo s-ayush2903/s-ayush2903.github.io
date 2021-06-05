@@ -4,7 +4,7 @@ current: post
 cover: assets/images/2021-03-26-coroutines-addrepeatingjob.png
 navigation: True
 title: A safer way to collect flows from Android UIs
-date: 2021-03-26 00:00:00
+date: 6th day of June 2021 02:47
 tags: [coroutines]
 class: post-template
 subclass: 'post'
