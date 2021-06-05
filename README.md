@@ -1,5 +1,6 @@
-## Jasper2
+## Jasper2 (manuelvivo.dev)
 
+<<<<<<< HEAD
 [![Build Status](https://github.com/jekyllt/jasper2/actions/workflows/jekyll_build.yml/badge.svg)](https://github.com/jekyllt/jasper2/actions/workflows/jekyll_build.yml)
 [![Ruby](https://img.shields.io/badge/ruby-2.6.3-blue.svg?style=flat)](http://travis-ci.org/jekyllt/jasper2)
 [![Jekyll](https://img.shields.io/badge/jekyll-3.9.0-blue.svg?style=flat)](http://travis-ci.org/jekyllt/jasper2)
@@ -10,6 +11,26 @@ This is a full-featured port of Ghost's default theme [Casper](https://github.co
 ## Live Demo
 
 [Ghost's Casper](https://demo.ghost.io) // [Jasper2](https://jekyllt.github.io/jasper2)
+=======
+![Site build](https://github.com/manuelvicnt/manuelvicnt.github.io/workflows/Build%20and%20deploy%20Jekyll%20site%20to%20GitHub%20Pages/badge.svg)
+
+Source code of my personal website [manuelvivo.dev](https://manuelvivo.dev).
+
+## Local deploy
+
+To deploy and verify changes locally, run the `gulp` command to pickup CSS style changes and `bundle exec jekyll serve` on different terminal windows.
+
+## Setup
+
+GitHub actions was set up following [this post](https://jekyllrb.com/docs/continuous-integration/github-actions/)m and the redirect fromg GitHub pages to [manuelvivo.dev](https://manuelvivo.dev) following [this one](https://dev.to/trentyang/how-to-setup-google-domain-for-github-pages-1p58).
+
+## Live Demo
+
+This is a full-featured port of Ghost's default theme [Casper](https://github.com/tryghost/casper)
+*v2.1.9* for [Jekyll](https://jekyllrb.com/) / [GitHub Pages](https://pages.github.com/).
+
+[Ghost's Casper](https://demo.ghost.io) // [Jasper2](https://jekyller.github.io/jasper2)
+>>>>>>> 6f8d8729ee977983ef0f143c0b8d0cebadf94873
 
 ![home page](https://raw.githubusercontent.com/jekyllt/jasper2/master/assets/screenshot-desktop.jpg)
 

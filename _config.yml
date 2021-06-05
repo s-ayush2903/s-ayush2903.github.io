@@ -2,35 +2,39 @@
 markdown: kramdown
 highlighter: rouge
 paginate: 100 # it will paginate after this number
-language: 'en-uk'
+language: 'en-us'
 words_per_minute: 200
 
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
-baseurl: /jasper2/
+baseurl: /
+url: https://manuelvivo.dev
 
 # Website info
-title: Ghost
-description: The professional publishing platform
+title: Manuel Vivo .dev
+description: A place where you can learn about Android development
 cover: assets/images/blog-cover.jpg
-logo: assets/images/blog-icon.png
-logo_dark: assets/images/favicon.png
+#logo: assets/images/blog-icon.png
+#logo_dark: assets/images/favicon.png
 favicon: assets/images/favicon.png
-CNAME: #add cname for website to be created
+production_url: https://manuelvivo.dev/
+source_url: https://github.com/manuelvicnt/manuelvicnt.github.io
+CNAME: manuelvivo.dev #add cname for website to be created
 
 # Social info
 navigation: True # show the navbar links
-subscribers: True # you need to connect an external service for this to work,
-# if 'True' the submit button is disabled for now, but you can change that
-# by editing `_includes/subscribe-form.html`
-twitter: tryghost # replace by your username
-facebook: ghost # replace by your username
+twitter: manuelvicnt
 
 # Disqus
+<<<<<<< HEAD
 disqus: False
 disqus_shortname: jekyllt # replace with your disqus username
+=======
+disqus: True
+disqus_shortname: manuelvivo
+>>>>>>> 6f8d8729ee977983ef0f143c0b8d0cebadf94873
 
 # Google Analytics
-google_analytics: UA-69281367-1 # replace with your GA tracking identifier
+google_analytics: G-8WG7TD0NF4 # replace with your GA tracking identifier
 
 # Permalinks
 permalink: /:title
@@ -67,6 +71,7 @@ feed:
 # or "master" otherwise
 safe: False
 lsi: False
+<<<<<<< HEAD
 username: jekyllt
 repo: jasper2
 branch: master
@@ -74,6 +79,15 @@ relative_source: ../jasper2/
 destination: ../jasper2-pages/
 production_url:  https://jekyllt.github.io/jasper2/
 source_url:  https://github.com/jekyllt/jasper2/
+=======
+username: manuelvicnt
+repo: manuelvicnt
+branch: master
+relative_source: ../manuelvivo.dev/
+destination: _site
+production_url:  https://manuelvivo.dev/
+source_url:  https://github.com/manuelvicnt/manuelvicnt.github.io
+>>>>>>> 6f8d8729ee977983ef0f143c0b8d0cebadf94873
 
 exclude:
   - assets/css
