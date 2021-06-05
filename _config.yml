@@ -9,11 +9,11 @@ words_per_minute: 200
 baseurl: /
 
 # Website info
-title: Ayush!!
+title: Hello, this is Ayush!
 description: Heya! Welcome to my portfolio & Blog!
 cover: assets/images/blog-cover.jpg
-logo: assets/images/blog-icon.png
-logo_dark: assets/images/favicon.png
+# logo: assets/images/blog-icon.png
+# logo_dark: assets/images/favicon.png
 favicon: assets/images/favicon.png
 CNAME: stvayush.dev #add cname for website to be created
 
