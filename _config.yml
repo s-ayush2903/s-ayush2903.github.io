@@ -66,13 +66,13 @@ feed:
 # or "master" otherwise
 safe: False
 lsi: False
-username: manuelvicnt
-repo: manuelvicnt
+username: s-ayush2903
+repo: s-ayush2903.github.io
 branch: master
-relative_source: ../manuelvivo.dev/
-destination: _site
+relative_source: ../s-ayush2903/
+destination: s-ayush2903-pages
 production_url:  https://manuelvivo.dev/
-source_url:  https://github.com/manuelvicnt/manuelvicnt.github.io
+source_url:  https://github.com/s-ayush2903/s-ayush2903.github.io
 
 exclude:
   - assets/css
