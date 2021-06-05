@@ -16,8 +16,8 @@ cover: assets/images/blog-cover.jpg
 #logo: assets/images/blog-icon.png
 #logo_dark: assets/images/favicon.png
 favicon: assets/images/favicon.png
-production_url: https://manuelvivo.dev/
-source_url: https://github.com/manuelvicnt/manuelvicnt.github.io
+production_url: https://s-ayush2903.github.io/
+source_url: https://github.com/s-ayush2903/s-ayush2903.github.io
 CNAME: manuelvivo.dev #add cname for website to be created
 
 # Social info
@@ -25,13 +25,8 @@ navigation: True # show the navbar links
 twitter: manuelvicnt
 
 # Disqus
-<<<<<<< HEAD
-disqus: False
-disqus_shortname: jekyllt # replace with your disqus username
-=======
 disqus: True
 disqus_shortname: manuelvivo
->>>>>>> 6f8d8729ee977983ef0f143c0b8d0cebadf94873
 
 # Google Analytics
 google_analytics: G-8WG7TD0NF4 # replace with your GA tracking identifier
@@ -71,15 +66,6 @@ feed:
 # or "master" otherwise
 safe: False
 lsi: False
-<<<<<<< HEAD
-username: jekyllt
-repo: jasper2
-branch: master
-relative_source: ../jasper2/
-destination: ../jasper2-pages/
-production_url:  https://jekyllt.github.io/jasper2/
-source_url:  https://github.com/jekyllt/jasper2/
-=======
 username: manuelvicnt
 repo: manuelvicnt
 branch: master
@@ -87,7 +73,6 @@ relative_source: ../manuelvivo.dev/
 destination: _site
 production_url:  https://manuelvivo.dev/
 source_url:  https://github.com/manuelvicnt/manuelvicnt.github.io
->>>>>>> 6f8d8729ee977983ef0f143c0b8d0cebadf94873
 
 exclude:
   - assets/css
