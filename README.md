@@ -59,9 +59,8 @@ For option **3)** you will need to set up travis-ci for your personal fork. Brie
 need then is to change your details in *[\_config.yml](_config.yml)* so that you can push
 to your github repo. You will also need to generate a secure key to add to your
 *[.travis.yml](.travis.yml)* (you can find more info on how to do it in that file).
-Also make sure you read the documentation from
-[jekyll-travis](https://github.com/mfenner/jekyll-travis). This approach has clear
-advantages in that you simply push your file changes to GitHub and all the HTML files
+Also make sure you read the documentation from [jekyll-travis](https://github.com/mfenner/jekyll-travis). 
+This approach has clear advantages in that you simply push your file changes to GitHub and all the HTML files
 are generated for you and pushed to *gh-pages*. Also you get to know if everything is
 still fine with your site builds. Don't hesitate to contact me if you still have any
 issues (see below about issue tracking).
