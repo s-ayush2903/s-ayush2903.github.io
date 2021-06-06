@@ -7,6 +7,7 @@ words_per_minute: 200
 
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
 baseurl: /
+url: https://s-ayush2903.github.io
 
 # Website info
 title: Hello, this is Ayush!
@@ -15,6 +16,8 @@ cover: assets/images/blog-cover.jpg
 # logo: assets/images/blog-icon.png
 # logo_dark: assets/images/favicon.png
 favicon: assets/images/favicon.png
+production_url: https://s-ayush2903.github.io/
+source_url: https://github.com/s-ayush2903/s-ayush2903.github.io
 # CNAME: stvayush.dev #add cname for website to be created
 
 # Social info
@@ -70,7 +73,7 @@ lsi: False
 username: s-ayush2903
 repo: s-ayush2903
 branch: master
-relative_source: ../s-ayush2903/
+relative_source: ../s-ayush2903.github.io/
 destination: _site
 production_url:  https://s-ayush2903.github.io/
 source_url:  https://github.com/s-ayush2903/s-ayush2903.github.io
