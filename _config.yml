@@ -71,7 +71,7 @@ feed:
 safe: False
 lsi: False
 username: s-ayush2903
-repo: s-ayush2903
+repo: s-ayush2903.github.io
 branch: master
 relative_source: ../s-ayush2903.github.io/
 destination: _site
