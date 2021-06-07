@@ -66,3 +66,8 @@ residing.
 Once we have a robust FFI layer ready, then I’ll move to core android de-
 velopment process, that’ll entail writing UI for the application, architecting it
 properly, modularizing the application codebase and following the Modern Android Dev practices. Well this will be a relatively easier job to do in comparison to that of writing FFI layer xD My next step after this would be implementing the chat service in the application. We’ll focus in its detailing after we’re done with the very first milestone, the ”FFI Layer”. We'll see the plan of action for chat service in a separate blogpost, after the first coding phase :)
+
+
+Thanks for reading! 
+
+Cheers, Until next time we meet!
