@@ -4,7 +4,7 @@ current: post
 cover: assets/images/abstract-img.jpg
 navigation: True
 title: Untitled
-date: 7th day of June 2021 02:47
+date: 7th June 2021 02:47:00
 tags: [gsoc, networking, ffi]
 class: post-template
 subclass: 'post'
@@ -55,17 +55,14 @@ native languages like C++, C, Rust) from some other languages). This FFI
 layer currently exists in the module, but it is a bit old-fashioned, so in the initial
 phase of my coding period I plan and propose to rewrite this layer with best possible modern day FFI practices and following some standard references. The most crucial part of this project is this FFI layer, because it is the fundamental building block for the android project, once it is set and ready, then we’ll be able to use the functions and services provided in the native Irdest library written in Rust and extend our further development process via writing the application.
 
-## FFI Implementation- A Blueprint
+## FFI Implementation - A Blueprint
 The FFI already is quite notorious for the undefined behavior and icing on the cake is, that there is very less official documentation available on Rust-Kotlin FFI so this makes it
 more tricky & challenging to implement, but for the course of our development
-process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox
-android client. Another instance where they use Rust-Kotlin FFI is their Glean
-project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings
-on our own. After once we’ve written FFI layer, my next step will be to test it
+process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox android client. Another instance where they use Rust-Kotlin FFI is their Glean project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings on our own. After once we’ve written FFI layer, my next step will be to test it
 again thoroughly and make sure it works perfectly and does not has any bugs
 residing.
 
-## Further Developemnt:
+## Further Development:
 Once we have a robust FFI layer ready, then I’ll move to core android de-
 velopment process, that’ll entail writing UI for the application, architecting it
 properly, modularizing the application codebase and following the Modern Android Dev practices. Well this will be a relatively easier job to do in comparison to that of writing FFI layer xD My next step after this would be implementing the chat service in the application. We’ll focus in its detailing after we’re done with the very first milestone, the ”FFI Layer”. We'll see the plan of action for chat service in a separate blogpost, after the first coding phase :)
