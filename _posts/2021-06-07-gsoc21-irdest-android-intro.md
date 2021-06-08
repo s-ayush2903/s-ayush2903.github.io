@@ -11,7 +11,7 @@ subclass: 'post'
 author: stvayush
 ---
 
-“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ”
+*“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.”*
 
 
 Hello everyone, I am one of the students selected for
