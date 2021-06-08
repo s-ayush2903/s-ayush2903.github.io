@@ -3,8 +3,10 @@
 
 :root {
     /* Colours */
+    --lightblue: #D7EFFE;
     --blue: #3eb0ef;
     --green: #a4d037;
+    --darkgreen: #0d904f;
     --purple: #ad26b4;
     --yellow: #fecd35;
     --red: #f05230;
@@ -12,8 +14,25 @@
     --midgrey: #738a94;
     --lightgrey: #c5d2d9;
     --whitegrey: #e5eff5;
+    --orange: #f86734;
     --pink: #fa3a57;
     --brown: #a3821a;
+
+    /* Code syntax */
+    --codebackground: #073042;
+    --keyword: #85c0ff; /* 30% lighter than blue */
+    --comments: var(--lightblue);
+    --literals: var(--orange);
+    --names: var(--white);
+    --punctuation: #c9c9c9;
+    --types: #e1f39b;
+    --strings: var(--orange);
+    --class: #57f69e;
+    --function: #fffec8;
+    --annotation: #ffbc8f; /* 30% lighter than orange */
+
+    /* Font family */
+    --code_fontfamily: 'Source Code Pro', monospace;
 }
 
 /* Reset
