@@ -63,14 +63,12 @@ edgar:
   facebook: False
   twitter: False
   cover: False
-martin:
-  username: martin
-  name: Martin Luther King
-  location: Memphis, Tennessee
+stvayush:
+  username: stvayush
+  name: Ayush Shrivastava
   url_full: False
   url: False
-  bio: An American pastor, activist, humanitarian. People know me for leading the African-American Civil Rights movement using nonviolent civil disobedience.
-  picture: assets/images/martin.jpg
+  # picture: assets/images/martin.jpg
   facebook: False
   twitter: False
   cover: False

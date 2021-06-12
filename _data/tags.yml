@@ -14,3 +14,11 @@ getting-started:
   name: getting-started
   description: False
   cover: False
+gsoc:
+  name: GSoC'21
+  description: Related to Google Summer Of Code 2021
+  cover: False
+ffi:
+  name: FFI
+  description: Foreign Function Interface
+  cover: False
