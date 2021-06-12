@@ -152,7 +152,7 @@ debugTests:
 So this is how the first problem is fixed.  
 
 * Now coming to the second problem, which is about not letting our logs console being spammed. If your project uses NDK and you straightaway paste the trailing script, then it'll output the image attached previously as logs will exceed the maxim memory limit. Also I'm saying it *spamming*, because logs are just filled download progress of NDK(means how many per-cent it has been downloaded) and consumes the memory, we don't want to waste space seeing NDK download process which we know is going to pass for sure :P, we can simply by-pass it and other *verbose* download process of support tools, via passing **`--quiet`** flag in their installation command. 
-Let's see and example:
+Let's see an example:
 
 ``` yml
 before_script:
@@ -166,7 +166,7 @@ before_script:
   - wget --quiet --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip # here
 ```
 
-* If you are much concerned about that download progress or want to see how it goes, then you can simply get its output collected in a file that you can download as artifacts from GitLab CI. 
+* If you are much concerned about that download progress or want to see how it goes, then you can simply get its output collected in a file that you can download as artifacts from GitLab CI(a big thanks to [Milan](https://petabyte.dev/) for helping me out in uploading artifacts to GitLab :pray:). 
 Consider this patch:
 
 ``` yml 
@@ -181,3 +181,89 @@ uploadArtifacts:
     paths:
       - clients/android/logs.txt # path where file being exported to
 ```
+
+Now that we have android CI tools installed, we can simply run build commands and expect the output. For jobs we can also collect their reports/results as artifacts from GitLab CI via adding a step in our corresponding job. Collection and artifact uploading should be done after the job finishes. Let's see an example:
+
+``` yml
+# Run Lint
+Run Lint:
+   interruptible: true
+   stage: build
+
+   # It automatically writes reports app/lint/ as HTML & XML files
+   script:
+     - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint 
+   artifacts:
+     when: always
+     paths:
+       - "**/reports/" # specify path where to upload, note double quotes in wildcard pattern
+
+# Make Project
+Build Application & Generate APK:
+  interruptible: true
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - clients/android/app/build/outputs/
+```
+
+Now you'll be able to download artifacts from GitLab CI :)
+So this is how we fixed the second problem, yayy!
+
+With all this script written in CI file, it gets a bit messy and since we use it in all our pipelines, so at irde.st we have packaged all this android tools stuff in a docker image(with all due respect and effort from [spacekookie](https://spacekookie.de/)),  pull it in our CI runtime and then simply after changing the directory execute build/lint/test commands. See the docker image here: [irdest/android-build-env](https://hub.docker.com/repository/docker/irdest/android-build-env). Feel free to use it, but be aware that the NDK version that we use in this image is `21.1.6352462`, you should reconsider if yours is different, otherwise it can break stuff.
+
+The changed CI file for sub-project, after we use the image mentioned above:
+
+``` yml
+# Our ultimately orz docker image
+image: irdest/android-build-env
+
+# Move to android dir before running CI on it
+before_script:
+  - pwd
+  - cd clients/android # don't forget moving to correct dir
+  - ls
+
+# Run Lint
+Run Lint:
+   interruptible: true
+   stage: build
+   script:
+     - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+   artifacts:
+     when: always
+     paths:
+       - "**/reports/"
+
+# Make Project
+Build Application & Generate APK:
+  interruptible: true
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - clients/android/app/build/outputs/
+
+# Run all tests, if any fails, interrupt the pipeline(fail it)
+Run Unit Tests:
+  interruptible: true
+  stage: test
+  script:
+    - ./gradlew -Pci --console=plain :app:testDebug
+```
+
+I'll mention all the involved files/links here for your convenience
+
+* The docker image: [irdest/android-build-env](https://hub.docker.com/repository/docker/irdest/android-build-env)
+* Android-project level CI file, **without** custom docker image: *[s-ayush2903/irdest/clients/android/.gitlab-android-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/setupAndroidCI/clients/android/.gitlab-ci-android.yml)*
+* Android-project level CI file, with our custom docker image: *[s-ayush2903/irdest/clients/android/irdest-android-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/clients/android/irdest-android-ci.yml)*
+* Top level CI file: *[s-ayush2903/irdest/clients/android/.gitlab-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/.gitlab-ci.yml)* 
+* The MR that proposed these changes to the upstream: *[we/irdest !13](https://git.irde.st/we/irdest/-/merge_requests/23/)*
+
+So that's all with the Android CI with NDK at GitLab. I'll write more when find something interesing. And Thanks a lot for reading!
+
+~ Cheers Until next time we meet! 🥂
+
