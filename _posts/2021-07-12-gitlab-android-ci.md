@@ -3,7 +3,7 @@ layout: post
 current: post
 cover: assets/images/pipeline.jpg
 navigation: True
-title: Breaking the Multimodule Project Frontier at GitLab
+title: Crossing the Multimodule CI Frontier at GitLab
 date: 12th June 2021 02:47:00
 tags: [ci]
 class: post-template
@@ -167,6 +167,7 @@ before_script:
 ```
 
 * If you are much concerned about that download progress or want to see how it goes, then you can simply get its output collected in a file that you can download as artifacts from GitLab CI(a big thanks to [Milan](https://petabyte.dev/) for helping me out in uploading artifacts to GitLab :pray:). 
+
 Consider this patch:
 
 ``` yml 
@@ -181,6 +182,9 @@ uploadArtifacts:
     paths:
       - clients/android/logs.txt # path where file being exported to
 ```
+
+> You can learn about redirection syntax [here](https://ss64.com/nt/syntax-redirection.html).
+
 
 Now that we have android CI tools installed, we can simply run build commands and expect the output. For jobs we can also collect their reports/results as artifacts from GitLab CI via adding a step in our corresponding job. Collection and artifact uploading should be done after the job finishes. Let's see an example:
 
@@ -258,12 +262,12 @@ Run Unit Tests:
 I'll mention all the involved files/links here for your convenience
 
 * The docker image: [irdest/android-build-env](https://hub.docker.com/repository/docker/irdest/android-build-env)
-* Android-project level CI file, **without** custom docker image: *[s-ayush2903/irdest/clients/android/.gitlab-android-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/setupAndroidCI/clients/android/.gitlab-ci-android.yml)*
-* Android-project level CI file, with our custom docker image: *[s-ayush2903/irdest/clients/android/irdest-android-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/clients/android/irdest-android-ci.yml)*
-* Top level CI file: *[s-ayush2903/irdest/clients/android/.gitlab-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/.gitlab-ci.yml)* 
-* The MR that proposed these changes to the upstream: *[we/irdest !13](https://git.irde.st/we/irdest/-/merge_requests/23/)*
+* Android-project level CI file, **without** custom docker image: [s-ayush2903/irdest/clients/android/.gitlab-android-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/setupAndroidCI/clients/android/.gitlab-ci-android.yml)
+* Android-project level CI file, with our custom docker image: [s-ayush2903/irdest/clients/android/irdest-android-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/clients/android/irdest-android-ci.yml)
+* Top level CI file: [s-ayush2903/irdest/clients/android/.gitlab-ci.yml](https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/.gitlab-ci.yml)
+* The MR that proposed these changes to the upstream: [we/irdest !13](https://git.irde.st/we/irdest/-/merge_requests/23/)
 
-So that's all with the Android CI with NDK at GitLab. I'll write more when find something interesing. And Thanks a lot for reading!
+So that's all about for setting up Android CI with NDK at GitLab in a (native)multimodular project. I'll write more when find something interesting. And Thanks a lot for reading!
 
-~ Cheers Until next time we meet! 🥂
+~ Cheers until we meet next time! 🥂
 
