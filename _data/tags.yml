@@ -22,3 +22,7 @@ ffi:
   name: FFI
   description: Foreign Function Interface
   cover: False
+ci:
+  name: CI
+  description: Continuous Integration
+  cover: False
