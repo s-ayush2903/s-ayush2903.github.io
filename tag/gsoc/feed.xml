@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator>
   <link href="https://s-ayush2903.github.io/tag/gsoc/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://s-ayush2903.github.io/" rel="alternate" type="text/html" />
-  <updated>2021-06-07T05:31:07+00:00</updated>
+  <updated>2026-01-24T22:42:19+00:00</updated>
   <id>https://s-ayush2903.github.io/tag/gsoc/feed.xml</id>
 
   
@@ -46,10 +46,10 @@
     <entry>
       <title type="html">Untitled</title>
       <link href="https://s-ayush2903.github.io/gsoc21-irdest-android-intro" rel="alternate" type="text/html" title="Untitled" />
-      <published>2021-06-01T02:47:00+00:00</published>
-      <updated>2021-06-01T02:47:00+00:00</updated>
+      <published>2021-06-07T02:47:00+00:00</published>
+      <updated>2021-06-07T02:47:00+00:00</updated>
       <id>https://s-ayush2903.github.io/gsoc21-irdest-android-intro</id>
-      <content type="html" xml:base="https://s-ayush2903.github.io/gsoc21-irdest-android-intro">&lt;p&gt;“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ”&lt;/p&gt;
+      <content type="html" xml:base="https://s-ayush2903.github.io/gsoc21-irdest-android-intro">&lt;p&gt;&lt;em&gt;“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.”&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Hello everyone, I am one of the students selected for
 Google Summer of Code 2021 for Irdest sub-organization under the umbrella
@@ -94,20 +94,21 @@ native languages like C++, C, Rust) from some other languages). This FFI
 layer currently exists in the module, but it is a bit old-fashioned, so in the initial
 phase of my coding period I plan and propose to rewrite this layer with best possible modern day FFI practices and following some standard references. The most crucial part of this project is this FFI layer, because it is the fundamental building block for the android project, once it is set and ready, then we’ll be able to use the functions and services provided in the native Irdest library written in Rust and extend our further development process via writing the application.&lt;/p&gt;
 
-&lt;h2 id=&quot;ffi-implementation--a-blueprint&quot;&gt;FFI Implementation- A Blueprint&lt;/h2&gt;
+&lt;h2 id=&quot;ffi-implementation---a-blueprint&quot;&gt;FFI Implementation - A Blueprint&lt;/h2&gt;
 &lt;p&gt;The FFI already is quite notorious for the undefined behavior and icing on the cake is, that there is very less official documentation available on Rust-Kotlin FFI so this makes it
 more tricky &amp;amp; challenging to implement, but for the course of our development
-process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox
-android client. Another instance where they use Rust-Kotlin FFI is their Glean
-project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings
-on our own. After once we’ve written FFI layer, my next step will be to test it
+process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox android client. Another instance where they use Rust-Kotlin FFI is their Glean project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings on our own. After once we’ve written FFI layer, my next step will be to test it
 again thoroughly and make sure it works perfectly and does not has any bugs
 residing.&lt;/p&gt;
 
-&lt;h2 id=&quot;further-developemnt&quot;&gt;Further Developemnt:&lt;/h2&gt;
+&lt;h2 id=&quot;further-development&quot;&gt;Further Development:&lt;/h2&gt;
 &lt;p&gt;Once we have a robust FFI layer ready, then I’ll move to core android de-
 velopment process, that’ll entail writing UI for the application, architecting it
-properly, modularizing the application codebase and following the Modern Android Dev practices. Well this will be a relatively easier job to do in comparison to that of writing FFI layer xD My next step after this would be implementing the chat service in the application. We’ll focus in its detailing after we’re done with the very first milestone, the ”FFI Layer”. We’ll see the plan of action for chat service in a separate blogpost, after the first coding phase :)&lt;/p&gt;</content>
+properly, modularizing the application codebase and following the Modern Android Dev practices. Well this will be a relatively easier job to do in comparison to that of writing FFI layer xD My next step after this would be implementing the chat service in the application. We’ll focus in its detailing after we’re done with the very first milestone, the ”FFI Layer”. We’ll see the plan of action for chat service in a separate blogpost, after the first coding phase :)&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+
+&lt;p&gt;Cheers, Until next time we meet!&lt;/p&gt;</content>
 
       
       
@@ -132,7 +133,7 @@ properly, modularizing the application codebase and following the Modern Android
       
 
       
-        <summary type="html">“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ”</summary>
+        <summary type="html">“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.”</summary>
       
 
       

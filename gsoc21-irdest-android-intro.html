@@ -52,19 +52,19 @@
     <meta property="og:site_name" content="Hello, this is Ayush!" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Untitled" />
-    <meta property="og:description" content="“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ” Hello everyone, I am one of the students selected for Google Summer of Code 2021 for Irdest sub-organization under the umbrella organization freifunk. If you’re wondering about which topic/project the" />
+    <meta property="og:description" content="“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.” Hello everyone, I am one of the students selected for Google Summer of Code 2021 for Irdest sub-organization under the umbrella organization freifunk. If you’re wondering about which topic/project the blog" />
     <meta property="og:url" content="https://s-ayush2903.github.io/gsoc21-irdest-android-intro" />
-    <meta property="og:image" content="https://s-ayush2903.github.io/assets/images/blog-cover.jpg" />
+    <meta property="og:image" content="https://s-ayush2903.github.io/assets/images/abstract-img.jpg" />
     <meta property="article:publisher" content="https://www.facebook.com/" />
     <meta property="article:author" content="https://www.facebook.com/" />
-    <meta property="article:published_time" content="2021-06-01T02:47:00+00:00" />
-    <meta property="article:modified_time" content="2021-06-01T02:47:00+00:00" />
+    <meta property="article:published_time" content="2021-06-07T02:47:00+00:00" />
+    <meta property="article:modified_time" content="2021-06-07T02:47:00+00:00" />
     <meta property="article:tag" content="Gsoc" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Untitled" />
-    <meta name="twitter:description" content="“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ” Hello everyone, I am one of the students selected for Google Summer of Code 2021 for Irdest sub-organization under the umbrella organization freifunk. If you’re wondering about which topic/project the" />
+    <meta name="twitter:description" content="“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.” Hello everyone, I am one of the students selected for Google Summer of Code 2021 for Irdest sub-organization under the umbrella organization freifunk. If you’re wondering about which topic/project the blog" />
     <meta name="twitter:url" content="https://s-ayush2903.github.io/" />
-    <meta name="twitter:image" content="https://s-ayush2903.github.io/assets/images/blog-cover.jpg" />
+    <meta name="twitter:image" content="https://s-ayush2903.github.io/assets/images/abstract-img.jpg" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="Hello, this is Ayush!" />
     <meta name="twitter:label2" content="Filed under" />
@@ -86,7 +86,7 @@
     "url": "https://s-ayush2903.github.io/gsoc21-irdest-android-intro",
     "image": {
         "@type": "ImageObject",
-        "url": "https://s-ayush2903.github.io/assets/images/blog-cover.jpg",
+        "url": "https://s-ayush2903.github.io/assets/images/abstract-img.jpg",
         "width": 2000,
         "height": 666
     },
@@ -94,7 +94,7 @@
         "@type": "WebPage",
         "@id": "https://s-ayush2903.github.io/gsoc21-irdest-android-intro"
     },
-    "description": "“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ” Hello everyone, I am one of the students selected for Google Summer of Code 2021 for Irdest sub-organization under the umbrella organization freifunk. If you’re wondering about which topic/project the"
+    "description": "“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.” Hello everyone, I am one of the students selected for Google Summer of Code 2021 for Irdest sub-organization under the umbrella organization freifunk. If you’re wondering about which topic/project the blog"
 }
     </script>
 
@@ -165,11 +165,11 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-gsoc tag-networking tag-ffi post no-image">
+        <article class="post-full  tag-gsoc tag-networking tag-ffi post ">
 
             <header class="post-full-header">
               <section class="post-full-meta">
-                  <time class="post-full-meta-date" datetime=" 1 June 2021"> 1 June 2021</time>
+                  <time class="post-full-meta-date" datetime=" 7 June 2021"> 7 June 2021</time>
               </section>
 
               
@@ -185,10 +185,13 @@ into the {body} of the default.hbs template -->
             </header>
 
             
+            <figure class="post-full-image" style="background-image: url(/assets/images/abstract-img.jpg)">
+            </figure>
+            
 
             <section class="post-full-content">
                 <div class="kg-card-markdown">
-                    <p>“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ”</p>
+                    <p><em>“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.”</em></p>
 
 <p>Hello everyone, I am one of the students selected for
 Google Summer of Code 2021 for Irdest sub-organization under the umbrella
@@ -233,20 +236,21 @@ native languages like C++, C, Rust) from some other languages). This FFI
 layer currently exists in the module, but it is a bit old-fashioned, so in the initial
 phase of my coding period I plan and propose to rewrite this layer with best possible modern day FFI practices and following some standard references. The most crucial part of this project is this FFI layer, because it is the fundamental building block for the android project, once it is set and ready, then we’ll be able to use the functions and services provided in the native Irdest library written in Rust and extend our further development process via writing the application.</p>
 
-<h2 id="ffi-implementation--a-blueprint">FFI Implementation- A Blueprint</h2>
+<h2 id="ffi-implementation---a-blueprint">FFI Implementation - A Blueprint</h2>
 <p>The FFI already is quite notorious for the undefined behavior and icing on the cake is, that there is very less official documentation available on Rust-Kotlin FFI so this makes it
 more tricky &amp; challenging to implement, but for the course of our development
-process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox
-android client. Another instance where they use Rust-Kotlin FFI is their Glean
-project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings
-on our own. After once we’ve written FFI layer, my next step will be to test it
+process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox android client. Another instance where they use Rust-Kotlin FFI is their Glean project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings on our own. After once we’ve written FFI layer, my next step will be to test it
 again thoroughly and make sure it works perfectly and does not has any bugs
 residing.</p>
 
-<h2 id="further-developemnt">Further Developemnt:</h2>
+<h2 id="further-development">Further Development:</h2>
 <p>Once we have a robust FFI layer ready, then I’ll move to core android de-
 velopment process, that’ll entail writing UI for the application, architecting it
 properly, modularizing the application codebase and following the Modern Android Dev practices. Well this will be a relatively easier job to do in comparison to that of writing FFI layer xD My next step after this would be implementing the chat service in the application. We’ll focus in its detailing after we’re done with the very first milestone, the ”FFI Layer”. We’ll see the plan of action for chat service in a separate blogpost, after the first coding phase :)</p>
+
+<p>Thanks for reading!</p>
+
+<p>Cheers, Until next time we meet!</p>
 
                 </div>
             </section>
@@ -310,6 +314,67 @@ properly, modularizing the application codebase and following the Modern Android
             
 
             <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/gitlab-android-ci">
+                <div class="post-card-image" style="background-image: url(/assets/images/pipeline.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/gitlab-android-ci">
+                <header class="post-card-header">
+                    
+                        
+                            
+                                <span class="post-card-tags">Ci</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Crossing the Multimodule CI Frontier at GitLab</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>“Great things are done by a series of small things brought together”
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        
+                        <span class="post-card-author">
+                            <a href="/author/stvayush/">Ayush Shrivastava</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      8 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
             
 
             <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
@@ -420,7 +485,7 @@ properly, modularizing the application codebase and following the Modern Android
         <!-- The footer at the very bottom of the screen -->
         <footer class="site-footer outer">
             <div class="site-footer-content inner">
-                <section class="copyright"><a href="https://s-ayush2903.github.io/">Hello, this is Ayush!</a> &copy; 2021</section>
+                <section class="copyright"><a href="https://s-ayush2903.github.io/">Hello, this is Ayush!</a> &copy; 2026</section>
                 <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
                     <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
                     <a href="https://github.com/jekyllt/jasper2" target="_blank" rel="noopener">Jasper2</a></section>

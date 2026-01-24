@@ -1,4 +1,333 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://s-ayush2903.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://s-ayush2903.github.io/" rel="alternate" type="text/html" /><updated>2021-06-07T05:31:07+00:00</updated><id>https://s-ayush2903.github.io/feed.xml</id><title type="html">Hello, this is Ayush!</title><subtitle>Heya! Welcome to my portfolio &amp; Blog!</subtitle><entry><title type="html">A safer way to collect flows from Android UIs</title><link href="https://s-ayush2903.github.io/coroutines-addrepeatingjob" rel="alternate" type="text/html" title="A safer way to collect flows from Android UIs" /><published>2021-06-01T02:47:00+00:00</published><updated>2021-06-01T02:47:00+00:00</updated><id>https://s-ayush2903.github.io/coroutines-addrepeatingjob</id><content type="html" xml:base="https://s-ayush2903.github.io/coroutines-addrepeatingjob">&lt;p&gt;Learn how to use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lifecycle.repeatOnLifecycle&lt;/code&gt; API to safely collect flows from the UI layer in Android.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://s-ayush2903.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://s-ayush2903.github.io/" rel="alternate" type="text/html" /><updated>2026-01-24T22:42:19+00:00</updated><id>https://s-ayush2903.github.io/feed.xml</id><title type="html">Hello, this is Ayush!</title><subtitle>Heya! Welcome to my portfolio &amp; Blog!</subtitle><entry><title type="html">Crossing the Multimodule CI Frontier at GitLab</title><link href="https://s-ayush2903.github.io/gitlab-android-ci" rel="alternate" type="text/html" title="Crossing the Multimodule CI Frontier at GitLab" /><published>2021-06-12T02:47:00+00:00</published><updated>2021-06-12T02:47:00+00:00</updated><id>https://s-ayush2903.github.io/gitlab-android-ci</id><content type="html" xml:base="https://s-ayush2903.github.io/gitlab-android-ci">&lt;p&gt;&lt;em&gt;“Great things are done by a series of small things brought together”&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-gitlab-ci&quot;&gt;The GitLab CI&lt;/h2&gt;
+&lt;p&gt;Hi, you must have gone through &lt;a href=&quot;https://about.gitlab.com/blog/2018/10/24/setting-up-gitlab-ci-for-android-projects/&quot;&gt;this post by Jason Lenny&lt;/a&gt; for setting up
+CI for android projects at GitLab, it works pretty well till you have single
+project i.e., don’t have nested/sub-projects or don’t install NDK in the runtime
+at GitLab CI. When either of the case occurs, it becomes somewhat tricky to
+write a robust and clean CI script for the android project. Obviously, there are
+solutions to this problem, I am going to write the one that we followed in our
+project &lt;a href=&quot;https://git.irde.st/we/irdest&quot;&gt;irde.st&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;challenges&quot;&gt;Challenges&lt;/h2&gt;
+&lt;p&gt;First of all let’s see the problems that arise:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;With the multimodular project, it seems difficult to run different ci files from the top level one(the one that sits at the root of the project).&lt;/li&gt;
+  &lt;li&gt;Specifically with NDK installation at CI, what happens is that the installation process is &lt;em&gt;very&lt;/em&gt; verbose that fills up the entire logs console(or better to say, it kinda spams the log output) and version control platforms have an upper limit of logs to display in console set, after which it doesn’t show the output. This NDK installation coupled with the SDK installation process that you carry out for preparing the android-build-env(if you use a plain JDK 8 docker image), also adds to the log spam, most of which is irrelevant (if you have your environment variables set correctly) and what matters then the most is the output/logs generated when you run the Build, Test, StaticAnalysis checks and find where any of the checks fail, but due to limited logs being displayed in the console it becomes difficult or almost impossible.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;img src=&quot;assets/images/gitlab-ci-log-limit-exceeded.png&quot; /&gt;
+  &lt;small&gt;Logs in GitLab are displayed to a specific size&lt;/small&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The solution for problem #1 over the internet isn’t clearly given anywhere, there are just vague mentions of do like this and it’ll work, here we’ll see how to actually implement the desired fix.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;For problem #2, I haven’t seen any blog that targets our problem and explains + implements the fix. It is a real serious problem with log collection.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;rough-architectural-overview-of-irdest---a-multimodular-project&quot;&gt;Rough Architectural Overview of &lt;a href=&quot;https://irde.st&quot;&gt;Irdest&lt;/a&gt; - A Multimodular Project&lt;/h2&gt;
+&lt;p&gt;So Irdest had both the problems initially, i.e., it is a multi-modular project
+that comprises of native rust library and clients hubd, docker &amp;amp; android. The
+project is structured in such a way that rust library lies at the root of the
+repository and hubd, docker &amp;amp; android are the parallel layers inside the rust
+library; also, we use NDK to use rust library on our android client– irdest-droid.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution---a-blueprint&quot;&gt;Solution - A Blueprint&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;The solution to problem #1 is fairly simple, we just need to &lt;a href=&quot;https://docs.gitlab.com/ee/ci/yaml/includes.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;include&lt;/code&gt;&lt;/a&gt; the CI file from sub-projects in our &lt;em&gt;main CI file(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.gitlab-ci.yml&lt;/code&gt;)&lt;/em&gt;, add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;triggers&lt;/code&gt; stage in the top of the main CI file. Note that you need to include the file when you trigger the &lt;em&gt;new&lt;/em&gt; job for your sub-project to be run at CI. An example:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;test&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;triggers&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# note this new stage&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;build-android-app&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#custom name for job&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;trigger&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# triggers the job&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;clients/android/irdest-android-ci.yml&apos;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# path to ci file of your sub-project, also note the single quotes in path&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In the trailing snippet, note that only including the ci file from sub-project is sufficient enough to get the jobs run that it contains. &lt;em&gt;It is needless to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;execute&lt;/code&gt; the file manually or write a script for the same&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Also note that, you need not worry about the contents of the ci file in sub-project, it does not demand any special modification(s), just write it normally as you have did if it were a single isolated android project. Anyways, the contents of the ci file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;irdest-android-ci.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Pull a plain Docker image that is a Debian OS with JDK installed&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;openjdk:8-jdk&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;variables&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# ANDROID_COMPILE_SDK is the version of Android you&apos;re compiling with.&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# It should match compileSdkVersion from your build.gradle file.&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;ANDROID_COMPILE_SDK&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;29&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# ANDROID_BUILD_TOOLS is the version of the Android build tools you are using.&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# It should match buildToolsVersion from your build.gradle file.&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;ANDROID_BUILD_TOOLS&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;29.0.3&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# It&apos;s what version of the command line tools we&apos;re going to download from the official site.&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# Official Site-&amp;gt; https://developer.android.com/studio/index.html&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# There, look down below at the cli tools only, sdk tools package is of format:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;#        commandlinetools-os_type-ANDROID_SDK_TOOLS_latest.zip&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# when I modified the script for the project, it was which is written down below&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;ANDROID_SDK_TOOLS&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;6514223&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Packages installation before running script&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;before_script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cd clients/android&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;apt-get update --yes&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;apt-get install --yes wget tar unzip lib32stdc++6 lib32z1&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# Setup path as android_home for moving/exporting the downloaded sdk into it&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;export ANDROID_HOME=${PWD}android-home&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;install -d $ANDROID_HOME&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# Here we are installing android SDK tools from official source,&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# (the key thing here is the url from where you are downloading these sdk tool for command line, so please do note this url pattern there and here as well)&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# after that unzipping those tools and&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# then running a series of SDK manager commands to install necessary android SDK packages that&apos;ll allow the app to build&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;wget --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;#  move the archive to ANDROID_HOME&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;pushd $ANDROID_HOME&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;unzip -d cmdline-tools cmdline-tools.zip&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;popd&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/tools/bin/&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# Nothing fancy here, just checking sdkManager version&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;sdkmanager --version&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# temporarily disable checking for EPIPE error and use yes to accept all licenses&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;set +o pipefail&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;set -o pipefail&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;sdkmanager --sdk_root=${ANDROID_HOME} &quot;platforms;android-${ANDROID_COMPILE_SDK}&quot;&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;sdkmanager --sdk_root=${ANDROID_HOME} &quot;platform-tools&quot;&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;sdkmanager --sdk_root=${ANDROID_HOME} &quot;build-tools;${ANDROID_BUILD_TOOLS}&quot;&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo &quot;y&quot; | ${ANDROID_HOME}/tools/bin/sdkmanager --install &quot;ndk;21.1.6352462&quot; --sdk_root=${ANDROID_HOME}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# use this if your project *really* uses NDK&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# Not necessary, but just for surity&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;chmod +x ./gradlew&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Check linting&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;lintDebug&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Make Project&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;assembleDebug&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew assembleDebug&lt;/span&gt;
+
+
+  &lt;span class=&quot;na&quot;&gt;artifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;clients/android/app/build/outputs/&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;clients/android/logs.txt&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Run all tests, if any fails, interrupt the pipeline(fail it)&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;debugTests&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;test&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew -Pci --console=plain :app:testDebug&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So this is how the first problem is fixed.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Now coming to the second problem, which is about not letting our logs console being spammed. If your project uses NDK and you straightaway paste the trailing script, then it’ll output the image attached previously as logs will exceed the maxim memory limit. Also I’m saying it &lt;em&gt;spamming&lt;/em&gt;, because logs are just filled download progress of NDK(means how many per-cent it has been downloaded) and consumes the memory, we don’t want to waste space seeing NDK download process which we know is going to pass for sure :P, we can simply by-pass it and other &lt;em&gt;verbose&lt;/em&gt; download process of support tools, via passing &lt;strong&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--quiet&lt;/code&gt;&lt;/strong&gt; flag in their installation command. 
+Let’s see an example:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;before_script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cd clients/android&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# we have to move to correct dir before running CI on android project&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;apt-get --quiet update --yes&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# see here&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# here&lt;/span&gt;
+
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;export ANDROID_HOME=${PWD}android-home&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;install -d $ANDROID_HOME&lt;/span&gt;
+
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;wget --quiet --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# here&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;If you are much concerned about that download progress or want to see how it goes, then you can simply get its output collected in a file that you can download as artifacts from GitLab CI(a big thanks to &lt;a href=&quot;https://petabyte.dev/&quot;&gt;Milan&lt;/a&gt; for helping me out in uploading artifacts to GitLab :pray:).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Consider this patch:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c1&quot;&gt;# write download progress to a file&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo &quot;y&quot; | ${ANDROID_HOME}/tools/bin/sdkmanager --install &quot;ndk;21.1.6352462&quot; --sdk_root=${ANDROID_HOME}  2&amp;gt;&amp;amp;1 &amp;gt;&amp;gt; logs.txt&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Create a new job to upload artifacts(we can combine this step with build/lint, via uploading APK + Reports together) &lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;uploadArtifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;artifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;clients/android/logs.txt&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# path where file being exported to&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You can learn about redirection syntax &lt;a href=&quot;https://ss64.com/nt/syntax-redirection.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now that we have android CI tools installed, we can simply run build commands and expect the output. For jobs we can also collect their reports/results as artifacts from GitLab CI via adding a step in our corresponding job. Collection and artifact uploading should be done after the job finishes. Let’s see an example:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Run Lint&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Run Lint&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+
+   &lt;span class=&quot;c1&quot;&gt;# It automatically writes reports app/lint/ as HTML &amp;amp; XML files&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+     &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint&lt;/span&gt; 
+   &lt;span class=&quot;na&quot;&gt;artifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+       &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;**/reports/&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# specify path where to upload, note double quotes in wildcard pattern&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Make Project&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;Build Application &amp;amp; Generate APK&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew assembleDebug&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;artifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;clients/android/app/build/outputs/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you’ll be able to download artifacts from GitLab CI :)
+So this is how we fixed the second problem, yayy!&lt;/p&gt;
+
+&lt;p&gt;With all this script written in CI file, it gets a bit messy and since we use it in all our pipelines, so at irde.st we have packaged all this android tools stuff in a docker image(with all due respect and effort from &lt;a href=&quot;https://spacekookie.de/&quot;&gt;spacekookie&lt;/a&gt;),  pull it in our CI runtime and then simply after changing the directory execute build/lint/test commands. See the docker image here: &lt;a href=&quot;https://hub.docker.com/repository/docker/irdest/android-build-env&quot;&gt;irdest/android-build-env&lt;/a&gt;. Feel free to use it, but be aware that the NDK version that we use in this image is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;21.1.6352462&lt;/code&gt;, you should reconsider if yours is different, otherwise it can break stuff.&lt;/p&gt;
+
+&lt;p&gt;The changed CI file for sub-project, after we use the image mentioned above:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Our ultimately orz docker image&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;irdest/android-build-env&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Move to android dir before running CI on it&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;before_script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;pwd&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cd clients/android&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# don&apos;t forget moving to correct dir&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ls&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Run Lint&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Run Lint&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+     &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;artifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+       &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;**/reports/&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Make Project&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;Build Application &amp;amp; Generate APK&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew assembleDebug&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;artifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;clients/android/app/build/outputs/&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Run all tests, if any fails, interrupt the pipeline(fail it)&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Run Unit Tests&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;interruptible&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;test&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./gradlew -Pci --console=plain :app:testDebug&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I’ll mention all the involved files/links here for your convenience&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The docker image: &lt;a href=&quot;https://hub.docker.com/repository/docker/irdest/android-build-env&quot;&gt;irdest/android-build-env&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Android-project level CI file, &lt;strong&gt;without&lt;/strong&gt; custom docker image: &lt;a href=&quot;https://git.irde.st/s-ayush2903/irdest/-/blob/setupAndroidCI/clients/android/.gitlab-ci-android.yml&quot;&gt;s-ayush2903/irdest/clients/android/.gitlab-android-ci.yml&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Android-project level CI file, with our custom docker image: &lt;a href=&quot;https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/clients/android/irdest-android-ci.yml&quot;&gt;s-ayush2903/irdest/clients/android/irdest-android-ci.yml&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Top level CI file: &lt;a href=&quot;https://git.irde.st/s-ayush2903/irdest/-/blob/ci/%2313/establish-android-ci/.gitlab-ci.yml&quot;&gt;s-ayush2903/irdest/clients/android/.gitlab-ci.yml&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;The MR that proposed these changes to the upstream: &lt;a href=&quot;https://git.irde.st/we/irdest/-/merge_requests/23/&quot;&gt;we/irdest !13&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So that’s all about for setting up Android CI with NDK at GitLab in a (native)multimodular project. I’ll write more when find something interesting. And Thanks a lot for reading!&lt;/p&gt;
+
+&lt;p&gt;~ Cheers until we meet next time! 🥂&lt;/p&gt;</content><author><name>Ayush Shrivastava</name></author><category term="ci" /><summary type="html">“Great things are done by a series of small things brought together”</summary></entry><entry><title type="html">Untitled</title><link href="https://s-ayush2903.github.io/gsoc21-irdest-android-intro" rel="alternate" type="text/html" title="Untitled" /><published>2021-06-07T02:47:00+00:00</published><updated>2021-06-07T02:47:00+00:00</updated><id>https://s-ayush2903.github.io/gsoc21-irdest-android-intro</id><content type="html" xml:base="https://s-ayush2903.github.io/gsoc21-irdest-android-intro">&lt;p&gt;&lt;em&gt;“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.”&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Hello everyone, I am one of the students selected for
+Google Summer of Code 2021 for Irdest sub-organization under the umbrella
+organization freifunk. If you’re wondering about which topic/project the blog
+is focused on, then you may give a look to it &lt;a href=&quot;https://summerofcode.withgoogle.com/projects/#4792427082153984&quot;&gt;here&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h2 id=&quot;irdest&quot;&gt;Irdest&lt;/h2&gt;
+&lt;p&gt;Well, if you don’t know, then let me first introduce about what Irdest (&lt;a href=&quot;https://irde.st&quot;&gt;irde.st&lt;/a&gt;)
+is and what it does/supports. So, Irdest is a software suite that allows users to
+create an internet-independent, decentralized, wireless, adhoc mesh network. It
+removes all the dependencies of the user from a specific single service and enables
+users to create a mesh of their own. In this network mesh, users can communi-
+cate to each other via messaging(both, individual and Room) and placing voice
+calls. Irdest network mesh service also allows users to share files between them
+without relying on the internet. And also when a user enters the Irdest mesh
+network(note that user needs not connected to the internet i.e., without having an IP address, it can be a P2P connection over Wi-Fi or Bluetooth), their IP address is completely hidden thereby maintaining privacy and
+reducing possible breaches that may occur. In the irdest network mesh, as soon
+as a user enters the network, they are assigned an ID, which is a unique crypto-
+graphic key that helps identifying the users. All the messages/calls/file transfers
+made in Irdest network mesh are completely end to end encrypted, again a pos-
+itive sign from security &amp;amp; Privacy perspective. Currently, Irdest is supported
+for Linux &amp;amp; Android devices. For android, it is pretty much in incubation state
+and there are a bunch of points &amp;amp; directions where we can improve. This summer, I aim to implement some features on android client from the irdest upstream.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;WARNING: This blog has a tons of mentions of FFI, you may get overwhelmed by the term, so it stands for Foreign Function Interface.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;current-progress--ffi-overview&quot;&gt;Current Progress &amp;amp; FFI Overview&lt;/h2&gt;
+&lt;p&gt;So this was what Irdest is all about and a higher level overview of how things
+really work in it. As mentioned previously, the android client is pretty much in its incubation state, so we wish to implement it in a clean &amp;amp; modern way. So, since we want to make use of
+features supported by Irdest(in upstream) on the android application, therefore
+we need to maintain/create a binding or kind of a link between core Irdest code
+that makes all this internet independent network mesh possible &amp;amp; application
+codebase(to call those methods from). The point is that the core Irdest code
+that supports these functionalities is written natively in Rust, and we we want
+to utilize this pre-written library on android, without writing it again(in Kotlin)
+for android. So to make it possible, we’re going to write an FFI Layer(I’ll write
+in detail about FFI in some other post, but for the time being it is sufficient to
+know that by FFI we can call functions written in a specific language(mostly
+native languages like C++, C, Rust) from some other languages). This FFI
+layer currently exists in the module, but it is a bit old-fashioned, so in the initial
+phase of my coding period I plan and propose to rewrite this layer with best possible modern day FFI practices and following some standard references. The most crucial part of this project is this FFI layer, because it is the fundamental building block for the android project, once it is set and ready, then we’ll be able to use the functions and services provided in the native Irdest library written in Rust and extend our further development process via writing the application.&lt;/p&gt;
+
+&lt;h2 id=&quot;ffi-implementation---a-blueprint&quot;&gt;FFI Implementation - A Blueprint&lt;/h2&gt;
+&lt;p&gt;The FFI already is quite notorious for the undefined behavior and icing on the cake is, that there is very less official documentation available on Rust-Kotlin FFI so this makes it
+more tricky &amp;amp; challenging to implement, but for the course of our development
+process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox android client. Another instance where they use Rust-Kotlin FFI is their Glean project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings on our own. After once we’ve written FFI layer, my next step will be to test it
+again thoroughly and make sure it works perfectly and does not has any bugs
+residing.&lt;/p&gt;
+
+&lt;h2 id=&quot;further-development&quot;&gt;Further Development:&lt;/h2&gt;
+&lt;p&gt;Once we have a robust FFI layer ready, then I’ll move to core android de-
+velopment process, that’ll entail writing UI for the application, architecting it
+properly, modularizing the application codebase and following the Modern Android Dev practices. Well this will be a relatively easier job to do in comparison to that of writing FFI layer xD My next step after this would be implementing the chat service in the application. We’ll focus in its detailing after we’re done with the very first milestone, the ”FFI Layer”. We’ll see the plan of action for chat service in a separate blogpost, after the first coding phase :)&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+
+&lt;p&gt;Cheers, Until next time we meet!&lt;/p&gt;</content><author><name>Ayush Shrivastava</name></author><category term="gsoc" /><category term="networking" /><category term="ffi" /><summary type="html">“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.”</summary></entry><entry><title type="html">A safer way to collect flows from Android UIs</title><link href="https://s-ayush2903.github.io/coroutines-addrepeatingjob" rel="alternate" type="text/html" title="A safer way to collect flows from Android UIs" /><published>2021-06-06T02:47:00+00:00</published><updated>2021-06-06T02:47:00+00:00</updated><id>https://s-ayush2903.github.io/coroutines-addrepeatingjob</id><content type="html" xml:base="https://s-ayush2903.github.io/coroutines-addrepeatingjob">&lt;p&gt;Learn how to use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lifecycle.repeatOnLifecycle&lt;/code&gt; API to safely collect flows from the UI layer in Android.&lt;/p&gt;
 
 &lt;p&gt;In an Android app, &lt;a href=&quot;https://developer.android.com/kotlin/flow&quot;&gt;Kotlin flows&lt;/a&gt; are typically collected from the UI layer to display data updates on the screen. However, you want to collect these flows making sure you’re not doing more work than necessary, wasting resources (both CPU and memory) or leaking data when the view goes to the background.&lt;/p&gt;
 
@@ -246,62 +575,4 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;Use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lifecycle.repeatOnLifecycle&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flow.flowWithLifecycle&lt;/code&gt; APIs to safely collect flows from the UI layer in Android.&lt;/p&gt;</content><author><name>manuel</name></author><category term="coroutines" /><summary type="html">Learn how to use the Lifecycle.repeatOnLifecycle API to safely collect flows from the UI layer in Android.</summary></entry><entry><title type="html">Untitled</title><link href="https://s-ayush2903.github.io/gsoc21-irdest-android-intro" rel="alternate" type="text/html" title="Untitled" /><published>2021-06-01T02:47:00+00:00</published><updated>2021-06-01T02:47:00+00:00</updated><id>https://s-ayush2903.github.io/gsoc21-irdest-android-intro</id><content type="html" xml:base="https://s-ayush2903.github.io/gsoc21-irdest-android-intro">&lt;p&gt;“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ”&lt;/p&gt;
-
-&lt;p&gt;Hello everyone, I am one of the students selected for
-Google Summer of Code 2021 for Irdest sub-organization under the umbrella
-organization freifunk. If you’re wondering about which topic/project the blog
-is focused on, then you may give a look to it &lt;a href=&quot;https://summerofcode.withgoogle.com/projects/#4792427082153984&quot;&gt;here&lt;/a&gt;!&lt;/p&gt;
-
-&lt;h2 id=&quot;irdest&quot;&gt;Irdest&lt;/h2&gt;
-&lt;p&gt;Well, if you don’t know, then let me first introduce about what Irdest (&lt;a href=&quot;https://irde.st&quot;&gt;irde.st&lt;/a&gt;)
-is and what it does/supports. So, Irdest is a software suite that allows users to
-create an internet-independent, decentralized, wireless, adhoc mesh network. It
-removes all the dependencies of the user from a specific single service and enables
-users to create a mesh of their own. In this network mesh, users can communi-
-cate to each other via messaging(both, individual and Room) and placing voice
-calls. Irdest network mesh service also allows users to share files between them
-without relying on the internet. And also when a user enters the Irdest mesh
-network(note that user needs not connected to the internet i.e., without having an IP address, it can be a P2P connection over Wi-Fi or Bluetooth), their IP address is completely hidden thereby maintaining privacy and
-reducing possible breaches that may occur. In the irdest network mesh, as soon
-as a user enters the network, they are assigned an ID, which is a unique crypto-
-graphic key that helps identifying the users. All the messages/calls/file transfers
-made in Irdest network mesh are completely end to end encrypted, again a pos-
-itive sign from security &amp;amp; Privacy perspective. Currently, Irdest is supported
-for Linux &amp;amp; Android devices. For android, it is pretty much in incubation state
-and there are a bunch of points &amp;amp; directions where we can improve. This summer, I aim to implement some features on android client from the irdest upstream.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;WARNING: This blog has a tons of mentions of FFI, you may get overwhelmed by the term, so it stands for Foreign Function Interface.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;current-progress--ffi-overview&quot;&gt;Current Progress &amp;amp; FFI Overview&lt;/h2&gt;
-&lt;p&gt;So this was what Irdest is all about and a higher level overview of how things
-really work in it. As mentioned previously, the android client is pretty much in its incubation state, so we wish to implement it in a clean &amp;amp; modern way. So, since we want to make use of
-features supported by Irdest(in upstream) on the android application, therefore
-we need to maintain/create a binding or kind of a link between core Irdest code
-that makes all this internet independent network mesh possible &amp;amp; application
-codebase(to call those methods from). The point is that the core Irdest code
-that supports these functionalities is written natively in Rust, and we we want
-to utilize this pre-written library on android, without writing it again(in Kotlin)
-for android. So to make it possible, we’re going to write an FFI Layer(I’ll write
-in detail about FFI in some other post, but for the time being it is sufficient to
-know that by FFI we can call functions written in a specific language(mostly
-native languages like C++, C, Rust) from some other languages). This FFI
-layer currently exists in the module, but it is a bit old-fashioned, so in the initial
-phase of my coding period I plan and propose to rewrite this layer with best possible modern day FFI practices and following some standard references. The most crucial part of this project is this FFI layer, because it is the fundamental building block for the android project, once it is set and ready, then we’ll be able to use the functions and services provided in the native Irdest library written in Rust and extend our further development process via writing the application.&lt;/p&gt;
-
-&lt;h2 id=&quot;ffi-implementation--a-blueprint&quot;&gt;FFI Implementation- A Blueprint&lt;/h2&gt;
-&lt;p&gt;The FFI already is quite notorious for the undefined behavior and icing on the cake is, that there is very less official documentation available on Rust-Kotlin FFI so this makes it
-more tricky &amp;amp; challenging to implement, but for the course of our development
-process, we’ll be following and taking inspiration from how Mozilla have implemented FFI integration between their existing rust library and their firefox
-android client. Another instance where they use Rust-Kotlin FFI is their Glean
-project(a telemetry service). I’ll be taking most of the inspiration by and practices being followed in Glean, as a result of which we’ll be writing FFI bindings
-on our own. After once we’ve written FFI layer, my next step will be to test it
-again thoroughly and make sure it works perfectly and does not has any bugs
-residing.&lt;/p&gt;
-
-&lt;h2 id=&quot;further-developemnt&quot;&gt;Further Developemnt:&lt;/h2&gt;
-&lt;p&gt;Once we have a robust FFI layer ready, then I’ll move to core android de-
-velopment process, that’ll entail writing UI for the application, architecting it
-properly, modularizing the application codebase and following the Modern Android Dev practices. Well this will be a relatively easier job to do in comparison to that of writing FFI layer xD My next step after this would be implementing the chat service in the application. We’ll focus in its detailing after we’re done with the very first milestone, the ”FFI Layer”. We’ll see the plan of action for chat service in a separate blogpost, after the first coding phase :)&lt;/p&gt;</content><author><name>Ayush Shrivastava</name></author><category term="gsoc" /><category term="networking" /><category term="ffi" /><summary type="html">“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb. ”</summary></entry></feed>
+&lt;p&gt;Use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lifecycle.repeatOnLifecycle&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flow.flowWithLifecycle&lt;/code&gt; APIs to safely collect flows from the UI layer in Android.&lt;/p&gt;</content><author><name>manuel</name></author><category term="coroutines" /><summary type="html">Learn how to use the Lifecycle.repeatOnLifecycle API to safely collect flows from the UI layer in Android.</summary></entry></feed>

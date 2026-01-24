@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator>
   <link href="https://s-ayush2903.github.io/tag/coroutines/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://s-ayush2903.github.io/" rel="alternate" type="text/html" />
-  <updated>2021-06-07T05:31:07+00:00</updated>
+  <updated>2026-01-24T22:42:19+00:00</updated>
   <id>https://s-ayush2903.github.io/tag/coroutines/feed.xml</id>
 
   
@@ -46,8 +46,8 @@
     <entry>
       <title type="html">A safer way to collect flows from Android UIs</title>
       <link href="https://s-ayush2903.github.io/coroutines-addrepeatingjob" rel="alternate" type="text/html" title="A safer way to collect flows from Android UIs" />
-      <published>2021-06-01T02:47:00+00:00</published>
-      <updated>2021-06-01T02:47:00+00:00</updated>
+      <published>2021-06-06T02:47:00+00:00</published>
+      <updated>2021-06-06T02:47:00+00:00</updated>
       <id>https://s-ayush2903.github.io/coroutines-addrepeatingjob</id>
       <content type="html" xml:base="https://s-ayush2903.github.io/coroutines-addrepeatingjob">&lt;p&gt;Learn how to use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lifecycle.repeatOnLifecycle&lt;/code&gt; API to safely collect flows from the UI layer in Android.&lt;/p&gt;
 
