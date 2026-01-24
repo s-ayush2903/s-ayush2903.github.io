@@ -43,7 +43,7 @@ Certainly, modern editors do have a bunch of improvements which keeps them from 
 
 This is a very high level overview of what Language Servers are and LSP, and why they were needed in the first place.
 
-I found it interesting and implemented some very basic components for a toy language, to gain familiarity with the LSP and GoLang. You can give it a look too over [here](https://github.com/s-ayush2903/custom-lsp).
+I found it interesting and implemented some very basic components for a toy language, to gain familiarity with the LSP and GoLang. You can give it a look too over [here](https://gitlab.com/s-ayush2903/custom-lsp).
 
 Further reading:
 
