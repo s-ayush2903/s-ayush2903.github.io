@@ -8,6 +8,22 @@
     
       
       <item>
+        <title>Need for LSP - Conceiving the Notion</title>
+        
+          <description>&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Ever wondered how auto-completions / syntax check for a particular programming language(hereafter referred as PL) works in IDEs out of the box? Here, we’ll be conceiving the core underlying notion for the LSP and lang servers with examples.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Sat, 25 Jan 2025 04:12:00 +0000</pubDate>
+        <link>
+        https://s-ayush2903.github.io/language-server-protocol</link>
+        <guid isPermaLink="true">https://s-ayush2903.github.io/language-server-protocol</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Crossing the Multimodule CI Frontier at GitLab</title>
         
           <description>&lt;p&gt;&lt;em&gt;“Great things are done by a series of small things brought together”&lt;/em&gt;&lt;/p&gt;
