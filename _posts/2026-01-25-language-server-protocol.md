@@ -4,7 +4,7 @@ current: post
 cover: assets/images/lsp-cover.jpg
 navigation: True
 title: Need for LSP - Conceiving the Notion
-date: 25th January 2026 04:12:00
+date: 25th January 2025 04:12:00
 tags: [lsp, programming]
 class: post-template
 subclass: 'post'
@@ -17,7 +17,7 @@ Ever wondered how auto-completions / syntax check for a particular programming l
 ## Problem Statement
 Every PL has their own grammar where a particular set of characters makes sense, this is about the field, methods, class etc. declarations / definitions and so on. In order for the editor to make sense of this grammar, it first needs to know about it's existence and then interact w/ it.
 
-1. Let's assume we (hypothetically) build an editor which knows how to interact w/ one PL's grammar.
+1. Let's assume we build an editor which knows how to interact w/ one PL's grammar.
 
 2. Now if we want to add support for another language then we'll have to perform some work again.
 
