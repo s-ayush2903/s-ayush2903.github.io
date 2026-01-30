@@ -26,3 +26,7 @@ ci:
   name: CI
   description: Continuous Integration
   cover: False
+lsp:
+  name: LSP
+  description: Language Server Protocol
+  cover: False
