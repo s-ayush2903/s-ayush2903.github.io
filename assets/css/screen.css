@@ -712,6 +712,18 @@ The first (most recent) post in the list is styled to be bigger than the others 
     margin: 0;
 }
 
+.post-full-content .mermaid {
+    font-size: 18px;
+    text-align: center;
+    margin: 2em 0;
+}
+
+.post-full-content .mermaid svg {
+    max-width: 100%;
+    height: auto;
+    min-height: 400px;
+}
+
 .post-template .kg-card-markdown > p:first-child {
     font-size: 1.25em;
     line-height: 1.5em;
