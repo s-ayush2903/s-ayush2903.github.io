@@ -8,8 +8,7 @@ import rehypeRaw from 'rehype-raw';
 import { remarkCallouts } from './src/plugins/remarkCallouts.ts';
 
 export default defineConfig({
-  // Update this to your production domain before deploying
-  site: 'https://example.com',
+  site: 'https://s-ayush2903.github.io',
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover',
