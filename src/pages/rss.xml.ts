@@ -12,8 +12,8 @@ export async function GET(context: APIContext) {
   });
 
   return rss({
-    title: 'Dev Portfolio & Blog',
-    description: 'Software developer portfolio and technical blog',
+    title: 'Ayush Shrivastava',
+    description: 'Ayush Shrivastava\'s portfolio and technical blog',
     site: context.site,
     items: sorted.map(post => ({
       title: post.data.title,

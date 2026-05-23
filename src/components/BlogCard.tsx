@@ -1,4 +1,5 @@
 import type { BlogPost } from '@/lib/blog';
+import { formatDate } from '@/lib/utils';
 import TagBadge from './TagBadge';
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 export default function BlogCard({ post, onTagClick }: Props) {
-  const displayDate = post.updated || post.date;
+  const displayDate = formatDate(post.updated || post.date);
   const label = post.updated ? 'updated' : 'posted';
   const readTime = post.readTime;
 

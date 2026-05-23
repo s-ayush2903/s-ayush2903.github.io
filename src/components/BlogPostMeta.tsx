@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/utils';
 import TagBadge from './TagBadge';
 
 interface Props {
@@ -21,9 +22,9 @@ export default function BlogPostMeta({ title, date, updated, tags, readTime }: P
       <header className="mt-6 mb-10">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <span className="font-mono text-xs text-muted-foreground">posted {date}</span>
+          <span className="font-mono text-xs text-muted-foreground">posted {formatDate(date)}</span>
           {updated && (
-            <span className="font-mono text-xs text-muted-foreground">· updated {updated}</span>
+            <span className="font-mono text-xs text-muted-foreground">· updated {formatDate(updated)}</span>
           )}
           <span className="font-mono text-xs text-muted-foreground">· {readTime} min read</span>
         </div>

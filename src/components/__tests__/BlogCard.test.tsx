@@ -40,13 +40,13 @@ describe('BlogCard', () => {
 
   it('renders date with "posted" label', () => {
     renderCard();
-    expect(screen.getByText(/posted 2026-01-01/)).toBeInTheDocument();
+    expect(screen.getByText(/posted 1st January 2026/)).toBeInTheDocument();
   });
 
   it('renders "updated" label when post has updated date', () => {
     const updated = { ...mockPost, updated: '2026-02-01' };
     render(<BlogCard post={updated} />);
-    expect(screen.getByText(/updated 2026-02-01/)).toBeInTheDocument();
+    expect(screen.getByText(/updated 1st February 2026/)).toBeInTheDocument();
   });
 
   it('links to the correct post URL', () => {
