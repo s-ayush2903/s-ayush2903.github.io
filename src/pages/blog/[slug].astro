@@ -1,0 +1,58 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogPostMeta from '../../components/BlogPostMeta';
+import MermaidIsland from '../../components/MermaidIsland';
+import { getReadingTime } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(p => ({
+    params: { slug: p.id },
+    props: { post: p },
+  }));
+}
+
+interface Props {
+  post: Awaited<ReturnType<typeof getCollection<'blog'>>>[number];
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const readTime = getReadingTime(post.body ?? '');
+---
+
+<Layout
+  title={`${post.data.title} — Dev Portfolio`}
+  description={post.data.description}
+  ogTitle={post.data.title}
+  ogDescription={post.data.description}
+  ogType="article"
+  ogPublishedTime={post.data.date}
+  ogModifiedTime={post.data.updated}
+>
+  <main class="mx-auto max-w-3xl px-6 py-16">
+    <BlogPostMeta
+      title={post.data.title}
+      date={post.data.date}
+      updated={post.data.updated}
+      tags={post.data.tags}
+      readTime={readTime}
+    />
+
+    <article class="prose prose-neutral dark:prose-invert max-w-none">
+      <Content />
+    </article>
+
+    <footer class="mt-16 border-t border-border pt-6">
+      <a
+        href="/blog"
+        class="font-mono text-sm text-muted-foreground hover:text-primary transition-colors"
+      >
+        ← back to all posts
+      </a>
+    </footer>
+  </main>
+
+  <MermaidIsland client:idle />
+</Layout>
