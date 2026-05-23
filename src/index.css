@@ -1,0 +1,283 @@
+/* Self-hosted fonts — woff2 files copied to public/fonts/ by scripts/copy-fonts.cjs.
+   Vite serves public/ as static files: zero CSS @import chain resolution in dev. */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-sans-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-sans-latin-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-sans-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-sans-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-sans-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');
+}
+
+/* KaTeX — bundled locally, no CDN dependency */
+@import 'katex/dist/katex.min.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 97%;
+    --foreground: 220 20% 12%;
+
+    --card: 40 15% 95%;
+    --card-foreground: 220 20% 12%;
+
+    --popover: 40 20% 97%;
+    --popover-foreground: 220 20% 12%;
+
+    --primary: 172 45% 28%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 12% 92%;
+    --secondary-foreground: 220 20% 12%;
+
+    --muted: 40 10% 92%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 172 45% 28%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 12% 88%;
+    --input: 40 12% 88%;
+    --ring: 172 45% 28%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 40 15% 95%;
+    --sidebar-foreground: 220 20% 12%;
+    --sidebar-primary: 172 45% 28%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 12% 92%;
+    --sidebar-accent-foreground: 220 20% 12%;
+    --sidebar-border: 40 12% 88%;
+    --sidebar-ring: 172 45% 28%;
+
+    --callout-tip-bg: 152 40% 93%;
+    --callout-tip-border: 152 50% 60%;
+    --callout-tip-text: 152 40% 20%;
+    --callout-warning-bg: 38 80% 93%;
+    --callout-warning-border: 38 80% 55%;
+    --callout-warning-text: 38 60% 20%;
+    --callout-gotcha-bg: 0 60% 94%;
+    --callout-gotcha-border: 0 60% 55%;
+    --callout-gotcha-text: 0 50% 25%;
+
+    --code-bg: 40 15% 95%;
+    --code-border: 40 12% 88%;
+  }
+
+  .dark {
+    --background: 220 20% 8%;
+    --foreground: 40 15% 90%;
+    --card: 220 18% 12%;
+    --card-foreground: 40 15% 90%;
+    --popover: 220 20% 8%;
+    --popover-foreground: 40 15% 90%;
+    --primary: 172 45% 45%;
+    --primary-foreground: 220 20% 8%;
+    --secondary: 220 15% 16%;
+    --secondary-foreground: 40 15% 90%;
+    --muted: 220 15% 16%;
+    --muted-foreground: 40 10% 55%;
+    --accent: 172 45% 45%;
+    --accent-foreground: 220 20% 8%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 40 15% 90%;
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 172 45% 45%;
+
+    --callout-tip-bg: 152 30% 15%;
+    --callout-tip-border: 152 40% 35%;
+    --callout-tip-text: 152 30% 80%;
+    --callout-warning-bg: 38 40% 15%;
+    --callout-warning-border: 38 50% 40%;
+    --callout-warning-text: 38 40% 80%;
+    --callout-gotcha-bg: 0 30% 15%;
+    --callout-gotcha-border: 0 40% 40%;
+    --callout-gotcha-text: 0 30% 80%;
+
+    --code-bg: 220 18% 12%;
+    --code-border: 220 15% 20%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+/* Callout boxes */
+.callout {
+  @apply my-6 rounded-lg px-5 py-4 border-l-4;
+}
+.callout-tip {
+  background-color: hsl(var(--callout-tip-bg));
+  border-left-color: hsl(var(--callout-tip-border));
+  color: hsl(var(--callout-tip-text));
+}
+.callout-warning {
+  background-color: hsl(var(--callout-warning-bg));
+  border-left-color: hsl(var(--callout-warning-border));
+  color: hsl(var(--callout-warning-text));
+}
+.callout-gotcha {
+  background-color: hsl(var(--callout-gotcha-bg));
+  border-left-color: hsl(var(--callout-gotcha-border));
+  color: hsl(var(--callout-gotcha-text));
+}
+.callout-label {
+  @apply font-mono text-xs font-semibold uppercase tracking-wider mb-2 block;
+}
+
+/* Inline code */
+.inline-code {
+  @apply font-mono text-sm px-1.5 py-0.5 rounded;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--primary));
+}
+
+/* Code block wrapper with copy button */
+.code-block-wrapper {
+  @apply relative my-4;
+}
+.copy-code-button {
+  @apply absolute top-2 right-2 z-10 p-1.5 rounded-md transition-colors;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}
+.copy-code-button:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+/* Prose overrides — remove Typography backtick pseudo-elements from all code */
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+.prose pre {
+  background-color: hsl(var(--code-bg));
+  border: 1px solid hsl(var(--code-border));
+  @apply rounded-lg overflow-x-auto;
+}
+.prose code {
+  @apply font-mono text-sm;
+}
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+.prose img {
+  @apply rounded-lg;
+}
+.prose a {
+  color: hsl(var(--primary));
+  @apply underline underline-offset-2;
+}
+.prose blockquote {
+  @apply border-l-4 border-border pl-4 italic text-muted-foreground;
+}
+.prose table {
+  @apply w-full border-collapse;
+}
+.prose th, .prose td {
+  @apply border border-border px-3 py-2 text-left;
+}
+.prose th {
+  background-color: hsl(var(--card));
+  @apply font-semibold;
+}
+
+/* ---------------------------------------------------------------------------
+   Shiki dual-theme (one-light / one-dark-pro)
+   Astro emits --shiki-light / --shiki-dark CSS vars on each <pre> and <span>.
+   These rules activate the correct theme based on Tailwind's .dark class.
+   --------------------------------------------------------------------------- */
+pre.astro-code,
+pre.astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+}
+
+.dark pre.astro-code,
+.dark pre.astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Inline code in Astro-rendered markdown (not inside a pre block) */
+:not(pre) > code:not([class]) {
+  @apply font-mono text-sm px-1.5 py-0.5 rounded;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--primary));
+}
