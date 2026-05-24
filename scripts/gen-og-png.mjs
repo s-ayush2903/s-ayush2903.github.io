@@ -15,13 +15,11 @@ const publicDir = resolve(__dirname, '../public');
 
 async function renderSvgToPng(browser, svgFile, pngFile, width, height) {
   const svg = readFileSync(svgFile, 'utf8');
+  // Font is embedded in og.svg via @font-face — no CDN needed.
   const html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=block" rel="stylesheet"/>
 <style>*{margin:0;padding:0;box-sizing:border-box;}body{width:${width}px;height:${height}px;overflow:hidden;}</style>
 </head>
 <body>${svg}</body>
