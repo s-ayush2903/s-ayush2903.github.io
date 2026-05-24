@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Site smoke tests', () => {
   test('homepage loads with navbar and site title', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByText('systems & writing')).toBeVisible();
+    await expect(page.getByText('systems & code')).toBeVisible();
     // Use nav-scoped locators to avoid ambiguity with page body text
     const nav = page.locator('nav');
     await expect(nav.getByText('about')).toBeVisible();
