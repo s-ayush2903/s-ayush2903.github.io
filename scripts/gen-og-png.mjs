@@ -15,6 +15,7 @@ const publicDir = resolve(__dirname, '../public');
 
 async function renderSvgToPng(browser, svgFile, pngFile, width, height) {
   const svg = readFileSync(svgFile, 'utf8');
+  // Font is embedded in og.svg via @font-face — no CDN needed.
   const html = `<!DOCTYPE html>
 <html>
 <head>

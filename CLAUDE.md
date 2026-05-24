@@ -48,6 +48,22 @@ Blog posts ARE the project showcase. There is no separate projects page.
 - **`date-fns`** — used in `src/lib/utils.ts`; keep
 - **`clsx`** + **`tailwind-merge`** — used in `src/lib/utils.ts` `cn()` helper; keep
 
+## Git workflow
+
+**Hard rule: only `dev` merges into `master`. No other branch, unless it is a SEV.**
+
+| Step | Action |
+|------|--------|
+| 1 | Branch off `master`: `git checkout -b feat/my-thing master` |
+| 2 | Raise PR targeting `dev` |
+| 3 | Verify the Vercel preview URL before requesting review |
+| 4 | Merge into `dev` once CI passes and preview looks correct |
+| 5 | Open a `dev → master` PR when `dev` is ready to ship |
+
+CI runs on every PR targeting `dev` or `master` (unit tests, E2E, build).
+Production deploy triggers on push to `master` via GitHub Actions → GitHub Pages.
+Vercel preview deployments are automatic for every open PR.
+
 ## Adding blog posts
 
 Frontmatter schema (all fields except `title`, `date`, `tags` are optional):
@@ -63,12 +79,78 @@ description: One or two sentence summary shown in the blog index and search snip
 
 Every post should have a `description`. Dates use ordinal format (`30th January 2026`) which `src/lib/dates.ts` normalizes to ISO.
 
+## Working on this repo
+
+Always propose changes via a Pull Request. Never push directly to `master`.
+
 ## Adding dependencies
 
 Before adding a package:
 1. Grep to confirm the feature doesn't already exist in the codebase
 2. Confirm it will be rendered on a real page (not just sitting in a component file)
 3. Remove an equal or larger package if the bundle is already sufficient
+
+## Commit message format
+
+Use conventional commits. One line, present tense, lowercase after the colon.
+
+```
+<type>: <short description>
+```
+
+| Type | When to use |
+|---|---|
+| `feat` | new user-visible feature or component |
+| `fix` | bug fix |
+| `content` | new blog post or edit to existing post |
+| `style` | visual / CSS / theme changes |
+| `refactor` | code restructuring with no behaviour change |
+| `test` | adding or updating tests |
+| `chore` | deps, build config, CI, tooling |
+
+Examples:
+```
+feat: add reading time estimate to blog post meta
+fix: mermaid diagrams not rendering in dark mode
+content: add post on JVM escape analysis
+chore: gate build on Vercel preview E2E job
+```
+
+Keep the subject under 72 characters. No period at the end. Body is optional — use it only to explain *why*, not *what*.
+
+## PR format
+
+Title mirrors the commit format (same type prefix, same length limit).
+
+Body must have exactly two sections:
+
+```markdown
+## What
+<!-- One or two sentences. What changed and why. -->
+
+## Test plan
+<!-- Bulleted checklist. What was verified and how. Always include:
+- [ ] `npm test` passes
+- [ ] `npm run test:e2e` passes locally
+- [ ] Playwright passes against Vercel preview (`bash scripts/test-preview.sh`)
+- [ ] Visually checked on preview URL
+-->
+```
+
+No fluff, no "this PR…", no generated walls of text. If the change is a single commit, the PR body can be as short as two bullet points.
+
+## Development Workflow
+
+Follow this sequence for every change — no exceptions:
+
+1. **Clarify** — ask the user what needs to change and confirm scope before writing any code
+2. **Implement** — make the change
+3. **Unit tests pass** — `npm test` runs automatically after each edit via the PostToolUse hook; fix all failures before pushing
+4. **Push** — `git push` to open/update a PR (triggers a Vercel preview build)
+5. **E2E on preview** — run `bash scripts/test-preview.sh`; it polls for the preview URL and runs Playwright against it without needing any auth token
+6. **Report** — tell the user: what changed, which tests passed, and the preview URL. User decides when to merge.
+
+Never push with failing unit tests. Never say "done" without running E2E against the Vercel preview.
 
 ## File map
 
