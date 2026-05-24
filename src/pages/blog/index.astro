@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogListIsland from '../../components/BlogListIsland';
+import { getReadingTime } from '../../lib/blog';
+import type { BlogPost } from '../../lib/blog';
+
+const entries = await getCollection('blog');
+
+const posts: BlogPost[] = entries
+  .map(e => ({
+    slug: e.id,
+    title: e.data.title,
+    date: e.data.date,
+    updated: e.data.updated,
+    tags: e.data.tags,
+    description: e.data.description,
+    readTime: getReadingTime(e.body ?? ''),
+  }))
+  .sort((a, b) => {
+    const dateA = new Date(a.updated ?? a.date).getTime();
+    const dateB = new Date(b.updated ?? b.date).getTime();
+    return dateB - dateA;
+  });
+---
+
+<Layout title="writing · systems & writing">
+  <BlogListIsland client:idle posts={posts} />
+</Layout>

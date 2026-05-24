@@ -1,32 +1,44 @@
 # OS X
 .DS_Store
 
-# Jekyll build
+# Astro build output & generated types
+dist/
+.astro/
+
+# Claude Code (developer-local config)
+.claude/
+
+# IDE
+.idea/
+*.swp
+.DS_Store
+
+# Dependencies
+node_modules
+
+# Lockfiles for package managers we don't use
+bun.lock
+bun.lockb
+
+# Test coverage & Playwright artifacts
+coverage
+test-results/
+playwright-report/
+
+# Legacy Jekyll / Ruby artefacts
 /_site/
 .jekyll-metadata
-#Gemfile.lock
-
-# webstorm
-.idea/
-
-# others
-*.swp
-package-lock.json
-
-# site build
 *.gem
 *.rbc
 .bundle
 .config
-coverage
+Gemfile.lock
 InstalledFiles
 lib/bundler/man
 pkg
 rdoc
+vendor
 spec/reports
 test/tmp
 test/version_tmp
 tmp
-vendor
-Gemfile.lock
-node_modules

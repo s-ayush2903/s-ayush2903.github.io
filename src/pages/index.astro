@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <main class="mx-auto max-w-3xl px-6 py-16">
+    <section>
+      <h1 class="text-3xl font-bold tracking-tight text-foreground">
+        Hey, I'm <span class="text-primary">Ayush</span>
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-muted-foreground">
+            Backend engineer. I work on distributed systems, JVM internals, 
+            and infrastructure that does not fall over.
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="font-mono text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        Currently
+      </h2>
+      <p class="mt-3 text-foreground leading-relaxed">
+          Deepening distributed systems fundamentals - Kafka, Raft, 
+          consistent hashing. Building in Java and Go. Open to serious 
+          backend engineering roles.
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="font-mono text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        Elsewhere
+      </h2>
+      <div class="mt-3 flex flex-wrap gap-4">
+        <a
+          href="https://github.com/s-ayush2903"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-sm text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
+        >GitHub</a>
+        <a
+          href="https://www.linkedin.com/in/s-ayush2903"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-sm text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
+        >LinkedIn</a>
+        <a
+          href="https://x.com/stvayush"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-sm text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
+        >Twitter / X</a>
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="font-mono text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        Writing
+      </h2>
+      <p class="mt-3 text-foreground leading-relaxed">
+        I write about things I learn and build.{' '}
+        <a href="/blog" class="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors">
+          Check out the blog →
+        </a>
+      </p>
+    </section>
+  </main>
+</Layout>

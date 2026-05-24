@@ -1,0 +1,30 @@
+image: node:24-alpine
+
+stages:
+  - test
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+test:
+  stage: test
+  script:
+    - npm ci
+    - npm test
+
+# GitLab Pages requires a job named "pages" that outputs to public/.
+pages:
+  stage: deploy
+  needs: [test]
+  script:
+    - npm ci
+    - npm run build
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
