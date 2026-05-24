@@ -1,14 +1,8 @@
 ---
-layout: post
-current: post
-cover: assets/images/abstract-img.jpg
-navigation: True
-title: Untitled
+title: "GSoC'21: Irdest Android Client – Overview"
 date: 7th June 2021 02:47:00
-tags: [gsoc, networking, ffi]
-class: post-template
-subclass: 'post'
-author: stvayush
+tags: [gsoc, android, ffi, networking]
+description: "Introducing my GSoC 2021 project: building a modern Android client for Irdest, a decentralised mesh networking suite, starting with the Rust–Kotlin FFI layer."
 ---
 
 *“Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.”*
