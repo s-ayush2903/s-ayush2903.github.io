@@ -48,6 +48,22 @@ Blog posts ARE the project showcase. There is no separate projects page.
 - **`date-fns`** — used in `src/lib/utils.ts`; keep
 - **`clsx`** + **`tailwind-merge`** — used in `src/lib/utils.ts` `cn()` helper; keep
 
+## Git workflow
+
+**Hard rule: only `dev` merges into `master`. No other branch, unless it is a SEV.**
+
+| Step | Action |
+|------|--------|
+| 1 | Branch off `master`: `git checkout -b feat/my-thing master` |
+| 2 | Raise PR targeting `dev` |
+| 3 | Verify the Vercel preview URL before requesting review |
+| 4 | Merge into `dev` once CI passes and preview looks correct |
+| 5 | Open a `dev → master` PR when `dev` is ready to ship |
+
+CI runs on every PR targeting `dev` or `master` (unit tests, E2E, build).
+Production deploy triggers on push to `master` via GitHub Actions → GitHub Pages.
+Vercel preview deployments are automatic for every open PR.
+
 ## Adding blog posts
 
 Frontmatter schema (all fields except `title`, `date`, `tags` are optional):
