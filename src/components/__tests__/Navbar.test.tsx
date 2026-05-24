@@ -15,7 +15,7 @@ function renderNavbar(pathname = '/') {
 describe('Navbar', () => {
   it('renders the site title', () => {
     renderNavbar();
-    expect(screen.getByText('systems & writing')).toBeInTheDocument();
+    expect(screen.getByText('systems & code')).toBeInTheDocument();
   });
 
   it('renders about and blog links', () => {
