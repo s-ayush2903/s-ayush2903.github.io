@@ -46,6 +46,7 @@
     "@eslint/js": "9.32.0",
     "@fontsource/ibm-plex-mono": "5.2.7",
     "@fontsource/ibm-plex-sans": "5.2.8",
+    "@playwright/test": "1.60.0",
     "@tailwindcss/typography": "0.5.16",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
