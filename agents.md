@@ -79,6 +79,10 @@ description: One or two sentence summary shown in the blog index and search snip
 
 Every post should have a `description`. Dates use ordinal format (`30th January 2026`) which `src/lib/dates.ts` normalizes to ISO.
 
+## Working on this repo
+
+Always propose changes via a Pull Request. Never push directly to `master`.
+
 ## Adding dependencies
 
 Before adding a package:
