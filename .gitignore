@@ -20,8 +20,10 @@ node_modules
 bun.lock
 bun.lockb
 
-# Test coverage
+# Test coverage & Playwright artifacts
 coverage
+test-results/
+playwright-report/
 
 # Legacy Jekyll / Ruby artefacts
 /_site/
