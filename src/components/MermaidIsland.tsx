@@ -14,13 +14,17 @@ import { useIsDark } from '@/lib/markdown';
 export default function MermaidIsland() {
   const isDark = useIsDark();
   const renderCount = useRef(0);
+  const prevIsDarkRef = useRef<boolean>(false);
 
   useEffect(() => {
     let cancelled = false;
 
+    const themeToUse = prevIsDarkRef.current;
+    prevIsDarkRef.current = isDark;
+
     // Unprocessed blocks (first render on page load)
     const fresh = Array.from(
-      document.querySelectorAll<HTMLElement>('pre[data-language="mermaid"]'),
+      document.querySelectorAll<HTMLElement>('pre[data-lang="mermaid"]'),
     );
     // Already-rendered containers (theme toggle re-render)
     const existing = Array.from(
@@ -77,7 +81,7 @@ export default function MermaidIsland() {
 
       mermaid.initialize({
         startOnLoad: false,
-        theme: isDark ? 'dark' : 'neutral',
+        theme: themeToUse ? 'dark' : 'neutral',
         fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
       });
 

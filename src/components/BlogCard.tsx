@@ -14,7 +14,7 @@ export default function BlogCard({ post, onTagClick }: Props) {
 
   return (
     <article className="group border-b border-border py-6 first:pt-0 last:border-b-0">
-      <a href={`/blog/${post.slug}`} className="block">
+      <a href={`/posts/${post.slug}`} className="block">
         <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
           {post.title}
         </h2>
