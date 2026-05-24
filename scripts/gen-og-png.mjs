@@ -19,6 +19,9 @@ async function renderSvgToPng(browser, svgFile, pngFile, width, height) {
 <html>
 <head>
 <meta charset="utf-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=block" rel="stylesheet"/>
 <style>*{margin:0;padding:0;box-sizing:border-box;}body{width:${width}px;height:${height}px;overflow:hidden;}</style>
 </head>
 <body>${svg}</body>
