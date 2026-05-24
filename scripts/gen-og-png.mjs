@@ -1,6 +1,5 @@
 /**
  * Renders public/og.svg → public/og.png at 1200×630
- * and public/favicon.svg → public/favicon.png at 32×32
  * Uses the Playwright chromium browser already installed for e2e tests.
  *
  * Usage: node scripts/gen-og-png.mjs
@@ -41,13 +40,6 @@ await renderSvgToPng(
   resolve(publicDir, 'og.svg'),
   resolve(publicDir, 'og.png'),
   1200, 630
-);
-
-await renderSvgToPng(
-  browser,
-  resolve(publicDir, 'favicon.svg'),
-  resolve(publicDir, 'favicon.png'),
-  32, 32
 );
 
 await browser.close();
