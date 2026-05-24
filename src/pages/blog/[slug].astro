@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import BlogPostMeta from '../../components/BlogPostMeta';
 import MermaidIsland from '../../components/MermaidIsland';
 import { getReadingTime } from '../../lib/blog';
+import { SITE_NAME } from '../../lib/constants';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -23,7 +24,7 @@ const readTime = getReadingTime(post.body ?? '');
 ---
 
 <Layout
-  title={`${post.data.title} · systems & writing`}
+  title={`${post.data.title} · ${SITE_NAME}`}
   description={post.data.description}
   ogTitle={post.data.title}
   ogDescription={post.data.description}

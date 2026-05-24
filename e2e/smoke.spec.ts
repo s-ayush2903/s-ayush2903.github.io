@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { SITE_NAME } from '../src/lib/constants';
 
 test.describe('Site smoke tests', () => {
   test('homepage loads with navbar and site title', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByText('systems & code')).toBeVisible();
+    await expect(page.getByText(SITE_NAME)).toBeVisible();
     // Use nav-scoped locators to avoid ambiguity with page body text
     const nav = page.locator('nav');
     await expect(nav.getByText('about')).toBeVisible();
