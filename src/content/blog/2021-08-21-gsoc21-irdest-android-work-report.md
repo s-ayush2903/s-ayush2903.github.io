@@ -72,3 +72,7 @@ Btw you can find me on GitHub with username: [s-ayush2903](https://github.com/s-
 
 Cheers Until next time we meet 🥂
 ~Ayush Shrivastava
+
+---
+
+*Originally published on the [Freifunk blog](https://blog.freifunk.net/2021/08/21/gsoc21-irdest-android-client-work-report/).*

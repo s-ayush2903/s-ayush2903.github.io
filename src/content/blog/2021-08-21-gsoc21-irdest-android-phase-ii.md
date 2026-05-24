@@ -51,3 +51,7 @@ And, the issue:
 
 Cheers Until next time we meet and hope to see 'ya in the final report!
 ~Ayush Shrivastava
+
+---
+
+*Originally published on the [Freifunk blog](https://blog.freifunk.net/2021/08/21/gsoc21-irdest-android-client-coding-phase-ii/).*

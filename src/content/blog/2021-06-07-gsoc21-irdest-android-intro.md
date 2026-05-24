@@ -65,3 +65,7 @@ properly, modularizing the application codebase and following the Modern Android
 Thanks for reading! 
 
 Cheers, Until next time we meet!
+
+---
+
+*Originally published on the [Freifunk blog](https://blog.freifunk.net/2021/06/07/gsoc21-irdest-android-client-overview/).*
