@@ -5,8 +5,9 @@
 dist/
 .astro/
 
-# Claude Code (developer-local config)
-.claude/
+# Claude Code — track project settings, ignore local overrides and worktrees
+.claude/settings.local.json
+.claude/worktrees/
 
 # IDE
 .idea/
