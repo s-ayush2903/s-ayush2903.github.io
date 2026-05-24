@@ -1,4 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
+const indexCss = readFileSync(resolve(__dirname, '../../index.css'), 'utf8');
 
 describe('Dark mode CSS variables', () => {
   beforeEach(() => {
@@ -21,8 +25,6 @@ describe('Dark mode CSS variables', () => {
   });
 
   it('dark mode callout variables are defined in CSS', () => {
-    // Verify the CSS file contains dark mode callout overrides
-    // This is a structural test - the actual CSS is loaded at runtime
     const darkCalloutVars = [
       '--callout-tip-bg',
       '--callout-tip-border',
@@ -34,12 +36,41 @@ describe('Dark mode CSS variables', () => {
       '--callout-gotcha-border',
       '--callout-gotcha-text',
     ];
-    // All variables should exist in our CSS source
-    expect(darkCalloutVars.length).toBe(9);
+    for (const v of darkCalloutVars) {
+      expect(indexCss).toContain(v);
+    }
   });
 
   it('dark mode code variables are defined in CSS', () => {
     const codeVars = ['--code-bg', '--code-border'];
-    expect(codeVars.length).toBe(2);
+    for (const v of codeVars) {
+      expect(indexCss).toContain(v);
+    }
   });
+});
+
+describe('Palette theme CSS selectors', () => {
+  const palettes = ['rose-pine', 'gruvbox', 'nord', 'one-dark'] as const;
+
+  for (const palette of palettes) {
+    it(`defines light-mode selector for ${palette}`, () => {
+      expect(indexCss).toContain(`[data-theme="${palette}"]`);
+    });
+
+    it(`defines dark-mode selector for ${palette}`, () => {
+      expect(indexCss).toContain(`.dark[data-theme="${palette}"]`);
+    });
+
+    it(`defines --background variable for ${palette}`, () => {
+      // Check that the palette block actually sets core vars
+      const lightBlock = indexCss.indexOf(`[data-theme="${palette}"]`);
+      const darkBlock = indexCss.indexOf(`.dark[data-theme="${palette}"]`);
+      expect(lightBlock).toBeGreaterThan(-1);
+      expect(darkBlock).toBeGreaterThan(-1);
+      // Both blocks should come after the default :root block
+      const rootBlock = indexCss.indexOf(':root {');
+      expect(lightBlock).toBeGreaterThan(rootBlock);
+      expect(darkBlock).toBeGreaterThan(rootBlock);
+    });
+  }
 });

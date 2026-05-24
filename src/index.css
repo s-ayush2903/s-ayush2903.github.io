@@ -162,6 +162,189 @@
   }
 }
 
+/* ─────────────────────────────────────────────────────────
+   THEMES — applied via data-theme="<name>" on <html>
+   Light variant: [data-theme="x"]:not(.dark)
+   Dark  variant: .dark[data-theme="x"]
+   Only vars that differ from the defaults are redeclared.
+───────────────────────────────────────────────────────── */
+
+/* ── Rosé Pine ─────────────────────────────────────────── */
+[data-theme="rose-pine"] {
+  --background:          32 57% 95%;   /* #faf4ed  Dawn bg   */
+  --foreground:         248 17% 39%;   /* #575279             */
+  --card:                25 38% 91%;   /* #f2e9e1             */
+  --card-foreground:    248 17% 39%;
+  --popover:             32 57% 95%;
+  --popover-foreground: 248 17% 39%;
+  --primary:              4 52% 66%;   /* #d7827a  rose       */
+  --primary-foreground:  32 57% 95%;
+  --secondary:           25 38% 91%;
+  --secondary-foreground:248 17% 39%;
+  --muted:               25 38% 91%;
+  --muted-foreground:   276  8% 62%;   /* #9893a5             */
+  --accent:               4 52% 66%;
+  --accent-foreground:   32 57% 95%;
+  --border:               6 11% 86%;   /* #dfdad9             */
+  --input:                6 11% 86%;
+  --ring:                 4 52% 66%;
+  --code-bg:             25 38% 91%;
+  --code-border:          6 11% 86%;
+}
+.dark[data-theme="rose-pine"] {
+  --background:         248 22% 12%;   /* #191724             */
+  --foreground:         245 57% 91%;   /* #e0def4             */
+  --card:               248 21% 15%;   /* #1f1d2e             */
+  --card-foreground:    245 57% 91%;
+  --popover:            248 22% 12%;
+  --popover-foreground: 245 57% 91%;
+  --primary:              2 60% 83%;   /* #ebbcba  rose       */
+  --primary-foreground: 248 22% 12%;
+  --secondary:          248 21% 15%;
+  --secondary-foreground:245 57% 91%;
+  --muted:              248 21% 15%;
+  --muted-foreground:   246 14% 60%;   /* #908caa             */
+  --accent:               2 60% 83%;
+  --accent-foreground:  248 22% 12%;
+  --border:             250 24% 18%;   /* #26233a             */
+  --input:              250 24% 18%;
+  --ring:                 2 60% 83%;
+  --code-bg:            248 29%  9%;   /* #12101e             */
+  --code-border:        250 24% 18%;
+}
+
+/* ── Gruvbox ────────────────────────────────────────────── */
+[data-theme="gruvbox"] {
+  --background:          48 88% 88%;   /* #fbf1c7             */
+  --foreground:          15  4% 22%;   /* #3c3836             */
+  --card:                45 70% 84%;   /* #f2e5bc             */
+  --card-foreground:     15  4% 22%;
+  --popover:             48 88% 88%;
+  --popover-foreground:  15  4% 22%;
+  --primary:             57 78% 26%;   /* #79740e             */
+  --primary-foreground:  48 88% 88%;
+  --secondary:           45 70% 84%;
+  --secondary-foreground:15  4% 22%;
+  --muted:               45 70% 84%;
+  --muted-foreground:    27  9% 44%;   /* #7c6f64             */
+  --accent:              57 78% 26%;
+  --accent-foreground:   48 88% 88%;
+  --border:              40 37% 73%;   /* #d5c4a1             */
+  --input:               40 37% 73%;
+  --ring:                57 78% 26%;
+  --code-bg:             45 70% 84%;
+  --code-border:         40 37% 73%;
+}
+.dark[data-theme="gruvbox"] {
+  --background:           0  0% 16%;   /* #282828             */
+  --foreground:          43 60% 80%;   /* #ebdbb2             */
+  --card:                15  4% 22%;   /* #3c3836             */
+  --card-foreground:     43 60% 80%;
+  --popover:              0  0% 16%;
+  --popover-foreground:  43 60% 80%;
+  --primary:             62 66% 44%;   /* #b8bb26  yel-green  */
+  --primary-foreground:   0  0% 16%;
+  --secondary:           15  4% 22%;
+  --secondary-foreground:43 60% 80%;
+  --muted:               15  4% 22%;
+  --muted-foreground:    27 10% 51%;   /* #928374             */
+  --accent:              62 66% 44%;
+  --accent-foreground:    0  0% 16%;
+  --border:              14  6% 29%;   /* #504945             */
+  --input:               14  6% 29%;
+  --ring:                62 66% 44%;
+  --code-bg:            195  2% 12%;   /* #1d2021             */
+  --code-border:         14  6% 29%;
+}
+
+/* ── Nord ───────────────────────────────────────────────── */
+[data-theme="nord"] {
+  --background:         218 27% 94%;   /* #eceff4  Snow Storm */
+  --foreground:         220 16% 22%;   /* #2e3440  Polar Night*/
+  --card:               218 22% 92%;   /* #e5e9f0             */
+  --card-foreground:    220 16% 22%;
+  --popover:            218 27% 94%;
+  --popover-foreground: 220 16% 22%;
+  --primary:            210 30% 52%;   /* #5e81ac  Frost blue */
+  --primary-foreground: 218 27% 94%;
+  --secondary:          218 22% 92%;
+  --secondary-foreground:220 16% 22%;
+  --muted:              218 22% 92%;
+  --muted-foreground:   220 17% 46%;   /* #616e88             */
+  --accent:             210 30% 52%;
+  --accent-foreground:  218 27% 94%;
+  --border:             218 27% 88%;   /* #d8dee9             */
+  --input:              218 27% 88%;
+  --ring:               210 30% 52%;
+  --code-bg:            218 22% 92%;
+  --code-border:        218 27% 88%;
+}
+.dark[data-theme="nord"] {
+  --background:         220 16% 22%;   /* #2e3440             */
+  --foreground:         218 27% 94%;   /* #eceff4             */
+  --card:               222 16% 28%;   /* #3b4252             */
+  --card-foreground:    218 27% 94%;
+  --popover:            220 16% 22%;
+  --popover-foreground: 218 27% 94%;
+  --primary:            193 43% 68%;   /* #88c0d0  arctic teal*/
+  --primary-foreground: 220 16% 22%;
+  --secondary:          222 16% 28%;
+  --secondary-foreground:218 27% 94%;
+  --muted:              222 16% 28%;
+  --muted-foreground:   220 16% 36%;   /* #4c566a             */
+  --accent:             193 43% 68%;
+  --accent-foreground:  220 16% 22%;
+  --border:             222 16% 28%;
+  --input:              222 16% 28%;
+  --ring:               193 43% 68%;
+  --code-bg:            220 14% 17%;   /* #242933             */
+  --code-border:        222 16% 28%;
+}
+
+/* ── One Dark Pro ───────────────────────────────────────── */
+[data-theme="one-dark"] {
+  --background:           0  0% 98%;   /* #fafafa  One Light  */
+  --foreground:         225  6% 24%;   /* #383a42             */
+  --card:                 0  0% 94%;   /* #f0f0f0             */
+  --card-foreground:    225  6% 24%;
+  --popover:              0  0% 98%;
+  --popover-foreground: 225  6% 24%;
+  --primary:            223 87% 60%;   /* #4078f2             */
+  --primary-foreground:   0  0% 98%;
+  --secondary:            0  0% 94%;
+  --secondary-foreground:225  6% 24%;
+  --muted:                0  0% 94%;
+  --muted-foreground:   223  5% 44%;   /* #696c77             */
+  --accent:             223 87% 60%;
+  --accent-foreground:    0  0% 98%;
+  --border:              75 15% 90%;   /* #e7e9e1             */
+  --input:               75 15% 90%;
+  --ring:               223 87% 60%;
+  --code-bg:              0  0% 94%;
+  --code-border:         75 15% 90%;
+}
+.dark[data-theme="one-dark"] {
+  --background:         220 13% 18%;   /* #282c34             */
+  --foreground:         220 14% 71%;   /* #abb2bf             */
+  --card:               220 13% 20%;   /* #2c313a             */
+  --card-foreground:    220 14% 71%;
+  --popover:            220 13% 18%;
+  --popover-foreground: 220 14% 71%;
+  --primary:            207 82% 66%;   /* #61afef  blue       */
+  --primary-foreground: 220 13% 18%;
+  --secondary:          220 13% 20%;
+  --secondary-foreground:220 14% 71%;
+  --muted:              220 13% 20%;
+  --muted-foreground:   220 10% 40%;   /* #5c6370             */
+  --accent:             207 82% 66%;
+  --accent-foreground:  220 13% 18%;
+  --border:             220 13% 28%;   /* #3e4452             */
+  --input:              220 13% 28%;
+  --ring:               207 82% 66%;
+  --code-bg:            220 13% 15%;   /* #21252b             */
+  --code-border:        220 13% 28%;
+}
+
 @layer base {
   * {
     @apply border-border;

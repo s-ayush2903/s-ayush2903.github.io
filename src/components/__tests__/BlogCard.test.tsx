@@ -61,4 +61,24 @@ describe('BlogCard', () => {
     fireEvent.click(screen.getByText('react'));
     expect(handler).toHaveBeenCalledWith('react');
   });
+
+  it('renders without crashing when description is empty', () => {
+    const post = { ...mockPost, description: '' };
+    render(<BlogCard post={post} />);
+    expect(screen.getByText('Test Post Title')).toBeInTheDocument();
+  });
+
+  it('renders without crashing when tags is empty', () => {
+    const post = { ...mockPost, tags: [] };
+    render(<BlogCard post={post} />);
+    expect(screen.getByText('Test Post Title')).toBeInTheDocument();
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
+  it('shows "posted" label when no updated date', () => {
+    const post = { ...mockPost, updated: undefined };
+    render(<BlogCard post={post} />);
+    expect(screen.getByText(/posted/)).toBeInTheDocument();
+    expect(screen.queryByText(/updated/)).toBeNull();
+  });
 });

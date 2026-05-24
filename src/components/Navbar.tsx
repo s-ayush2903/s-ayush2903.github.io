@@ -17,6 +17,34 @@ function SunIcon() {
   );
 }
 
+const PALETTES = ['default', 'rose-pine', 'gruvbox', 'nord', 'one-dark'] as const;
+type Palette = typeof PALETTES[number];
+
+const PALETTE_LABELS: Record<Palette, string> = {
+  'default':  'Default',
+  'rose-pine':'Rosé Pine',
+  'gruvbox':  'Gruvbox',
+  'nord':     'Nord',
+  'one-dark': 'One Dark Pro',
+};
+
+function usePalette() {
+  const [palette, setPaletteState] = useState<Palette>(() => {
+    /* v8 ignore next -- SSR guard */
+    if (typeof window === 'undefined') return 'default';
+    return (localStorage.getItem('palette') as Palette) ?? 'default';
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (palette === 'default') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', palette);
+    localStorage.setItem('palette', palette);
+  }, [palette]);
+
+  return { palette, setPalette: setPaletteState };
+}
+
 function useTheme() {
   const [dark, setDark] = useState(() => {
     /* v8 ignore next -- SSR guard, never reached in jsdom */
@@ -40,6 +68,7 @@ interface Props {
 
 export default function Navbar({ pathname }: Props) {
   const { dark, toggle } = useTheme();
+  const { palette, setPalette } = usePalette();
 
   const linkClass = (href: string) => {
     const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -57,6 +86,16 @@ export default function Navbar({ pathname }: Props) {
         <div className="flex items-center gap-6">
           <a href="/" className={linkClass('/')}>about</a>
           <a href="/blog" className={linkClass('/blog')}>blog</a>
+          <select
+            value={palette}
+            onChange={e => setPalette(e.target.value as Palette)}
+            className="font-mono text-xs bg-background text-muted-foreground border border-border rounded px-2 py-1 cursor-pointer hover:text-foreground focus:outline-none focus:ring-1 focus:ring-ring transition-colors"
+            aria-label="Select colour theme"
+          >
+            {PALETTES.map(p => (
+              <option key={p} value={p}>{PALETTE_LABELS[p]}</option>
+            ))}
+          </select>
           <button
             onClick={toggle}
             className="text-muted-foreground hover:text-foreground transition-colors"

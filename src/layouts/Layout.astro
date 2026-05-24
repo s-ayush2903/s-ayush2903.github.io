@@ -52,6 +52,9 @@ const {
           ? stored === 'dark'
           : window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (dark) document.documentElement.classList.add('dark');
+        var palette = localStorage.getItem('palette');
+        if (palette && palette !== 'default')
+          document.documentElement.setAttribute('data-theme', palette);
       })();
     </script>
   </head>

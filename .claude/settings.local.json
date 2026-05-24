@@ -4,7 +4,21 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(npm run *)",
-      "Bash(npm test *)"
+      "Bash(npm test *)",
+      "Bash(cat vitest.config.ts)",
+      "Bash(cat vitest.config.js)",
+      "Bash(cat vitest.config.mts)",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\('mermaid in deps:', 'mermaid' in \\(p.dependencies||{}\\)\\); console.log\\('mermaid in devDeps:', 'mermaid' in \\(p.devDependencies||{}\\)\\)\")",
+      "Bash(cat src/lib/markdown.ts)",
+      "Bash(cat src/lib/markdown.tsx)",
+      "Bash(curl -s \"http://localhost:4321/blog/2026-01-30-processes-abstraction\")",
+      "Bash(kill %1)",
+      "Bash(curl -s http://localhost:4322/)",
+      "Bash(pkill -f \"astro dev\")",
+      "Bash(node -e \"const p = require\\('./node_modules/mermaid/package.json'\\); console.log\\(JSON.stringify\\(p.dependencies,null,2\\)\\)\")",
+      "Bash(npx serve *)",
+      "Bash(grep -o '..\\\\{20\\\\}dayjs.\\\\{20\\\\}' \"dist/_astro/mermaid.core._tW3K6dP.js\")",
+      "Bash(node -e ' *)"
     ]
   }
 }

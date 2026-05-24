@@ -119,4 +119,60 @@ describe('MermaidIsland', () => {
     const { container } = render(<MermaidIsland />);
     expect(container.firstChild).toBeNull();
   });
+
+  it('replaces multiple mermaid blocks on the same page', async () => {
+    addMermaidBlock('graph TD;\nA-->B;');
+    addMermaidBlock('graph LR;\nC-->D;');
+    render(<MermaidIsland />);
+
+    await waitFor(() => {
+      expect(document.querySelectorAll('pre[data-language="mermaid"]')).toHaveLength(0);
+      expect(document.querySelectorAll('.my-6.flex.justify-center')).toHaveLength(2);
+    });
+  });
+
+  it('skips pre block with empty code element', async () => {
+    // Add one valid and one empty
+    addMermaidBlock('graph TD;\nA-->B;');
+    const emptyPre = document.createElement('pre');
+    emptyPre.setAttribute('data-language', 'mermaid');
+    emptyPre.appendChild(document.createElement('code')); // empty code
+    document.body.appendChild(emptyPre);
+
+    render(<MermaidIsland />);
+
+    await waitFor(() => {
+      // Only the valid block gets replaced
+      const containers = document.querySelectorAll('.my-6.flex.justify-center');
+      expect(containers).toHaveLength(1);
+    });
+    // The empty pre stays in the DOM (skipped)
+    expect(document.querySelectorAll('pre[data-language="mermaid"]')).toHaveLength(1);
+  });
+
+  it('preserves data-mermaid-source attribute with original source', async () => {
+    const source = 'graph TD;\nA-->B;';
+    addMermaidBlock(source);
+    render(<MermaidIsland />);
+
+    await waitFor(() => {
+      const container = document.querySelector('[data-mermaid-source]');
+      expect(container).toBeInTheDocument();
+      expect(container!.getAttribute('data-mermaid-source')).toBe(source);
+    });
+  });
+
+  it('does not mutate DOM after unmount (cancelled effect)', async () => {
+    addMermaidBlock('graph TD;\nA-->B;');
+    const { unmount } = render(<MermaidIsland />);
+    // Unmount immediately before mermaid.render resolves
+    unmount();
+
+    // Wait a tick for any pending promises
+    await new Promise(r => setTimeout(r, 50));
+
+    // The pre should still be in the DOM (never replaced because cancelled)
+    expect(document.querySelectorAll('pre[data-language="mermaid"]')).toHaveLength(1);
+    expect(document.querySelectorAll('[data-mermaid-source]')).toHaveLength(0);
+  });
 });

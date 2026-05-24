@@ -40,4 +40,17 @@ describe('BlogPostMeta', () => {
     render(<BlogPostMeta {...baseProps} />);
     expect(screen.queryByText(/updated/)).toBeNull();
   });
+
+  it('renders date in human-readable ordinal format', () => {
+    render(<BlogPostMeta {...baseProps} />);
+    // date "2024-03-15" → "15th March 2024", not raw ISO
+    expect(screen.getByText(/15th March 2024/)).toBeInTheDocument();
+    expect(screen.queryByText('2024-03-15')).toBeNull();
+  });
+
+  it('renders updated date in human-readable ordinal format', () => {
+    render(<BlogPostMeta {...baseProps} updated="2024-04-01" />);
+    expect(screen.getByText(/1st April 2024/)).toBeInTheDocument();
+    expect(screen.queryByText('2024-04-01')).toBeNull();
+  });
 });
