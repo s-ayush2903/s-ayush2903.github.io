@@ -11,7 +11,7 @@ export default function TagBadge({ tag, active, onClick }: Props) {
       className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs transition-colors ${
         active
           ? 'bg-primary text-primary-foreground'
-          : 'bg-secondary text-muted-foreground hover:bg-primary/10 hover:text-primary'
+          : 'bg-secondary text-secondary-foreground hover:bg-primary/10 hover:text-primary'
       }`}
     >
       {tag}
