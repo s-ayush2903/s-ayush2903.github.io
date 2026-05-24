@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SITE_NAME } from '@/lib/constants';
 
 function MoonIcon() {
   return (
@@ -81,7 +82,7 @@ export default function Navbar({ pathname }: Props) {
     <header className="border-b border-border">
       <nav className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
         <a href="/" className="font-mono text-base font-semibold text-foreground tracking-tight">
-          systems & writing
+          {SITE_NAME}
         </a>
         <div className="flex items-center gap-6">
           <a href="/" className={linkClass('/')}>about</a>

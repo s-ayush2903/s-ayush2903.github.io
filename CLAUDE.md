@@ -38,6 +38,23 @@ Blog posts ARE the project showcase. There is no separate projects page.
 - shadcn/ui components that aren't rendered anywhere
 - npm packages without a visible feature tied to them
 
+## Windows / Git Bash execution rules
+
+- NEVER use bare binaries: always `npx <tool>`, never `<tool>` directly
+- NEVER use `&&` to chain commands across cd — run each command separately
+  or use `cd path && command` only within a single shell invocation
+- NEVER assume shebangs work — `.sh` scripts may fail silently in Git Bash;
+  inline the commands instead of calling a script file
+- NEVER use `which` to find binaries — use `npx <tool> --version` to verify
+- NEVER construct POSIX paths like `/home/...` or `~/...` for project files;
+  use relative paths from the repo root always
+- When a shell command fails, do NOT spend more than 2 retries debugging the
+  environment. If it still fails, stop and report the exact error to the user.
+- `npm test` is the canonical test command. Do not re-derive it from
+  package.json unless npm test itself fails to resolve.
+- For any script in `scripts/`, read its contents first before executing —
+  do not assume it is POSIX-compatible
+
 ## Tech decisions
 
 - **Astro 6** for static generation — all pages pre-built at deploy time via GitHub Actions → GitHub Pages
