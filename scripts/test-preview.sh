@@ -4,11 +4,11 @@
 set -euo pipefail
 
 REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
-echo "Polling Vercel preview for branch: $BRANCH"
+SHA=$(git rev-parse HEAD)
+echo "Polling Vercel preview for commit: $SHA"
 
 for i in $(seq 1 12); do
-  STATUSES_URL=$(curl -s "https://api.github.com/repos/$REPO/deployments?ref=$BRANCH" \
+  STATUSES_URL=$(curl -s "https://api.github.com/repos/$REPO/deployments?ref=$SHA" \
     | python3 -c "
 import json, sys
 deploys = json.load(sys.stdin)
@@ -31,7 +31,7 @@ print(previews[0]['statuses_url'] if previews else '')
     fi
   fi
 
-  echo "Waiting... attempt $i/12 (${STATE:-no deployment yet})"
+  echo "Waiting... attempt $i/12 — state: ${STATE:-no deployment yet}"
   sleep 10
 done
 
