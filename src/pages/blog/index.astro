@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import BlogListIsland from '../../components/BlogListIsland';
 import { getReadingTime } from '../../lib/blog';
 import type { BlogPost } from '../../lib/blog';
+import { SITE_NAME } from '../../lib/constants';
 
 const entries = await getCollection('blog');
 
@@ -24,6 +25,6 @@ const posts: BlogPost[] = entries
   });
 ---
 
-<Layout title="writing · systems & writing">
+<Layout title={`writing · ${SITE_NAME}`}>
   <BlogListIsland client:idle posts={posts} />
 </Layout>

@@ -19,7 +19,7 @@ describe('TagBadge', () => {
     render(<TagBadge tag="react" />);
     const btn = screen.getByText('react');
     expect(btn.className).toContain('bg-secondary');
-    expect(btn.className).toContain('text-muted-foreground');
+    expect(btn.className).toContain('text-secondary-foreground');
   });
 
   it('calls onClick when clicked', () => {

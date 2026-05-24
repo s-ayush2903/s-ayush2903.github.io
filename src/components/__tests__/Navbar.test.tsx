@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Navbar from '../Navbar';
+import { SITE_NAME } from '@/lib/constants';
 
 beforeEach(() => {
   document.documentElement.classList.remove('dark');
@@ -15,7 +16,7 @@ function renderNavbar(pathname = '/') {
 describe('Navbar', () => {
   it('renders the site title', () => {
     renderNavbar();
-    expect(screen.getByText('systems & writing')).toBeInTheDocument();
+    expect(screen.getByText(SITE_NAME)).toBeInTheDocument();
   });
 
   it('renders about and blog links', () => {
