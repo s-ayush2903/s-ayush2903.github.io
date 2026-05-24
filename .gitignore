@@ -5,18 +5,27 @@
 dist/
 .astro/
 
-# Jekyll (legacy)
-/_site/
-.jekyll-metadata
+# Claude Code (developer-local config)
+.claude/
 
 # IDE
 .idea/
 *.swp
+.DS_Store
 
 # Dependencies
 node_modules
 
-# Ruby / Bundler (legacy)
+# Lockfiles for package managers we don't use
+bun.lock
+bun.lockb
+
+# Test coverage
+coverage
+
+# Legacy Jekyll / Ruby artefacts
+/_site/
+.jekyll-metadata
 *.gem
 *.rbc
 .bundle
@@ -27,9 +36,6 @@ lib/bundler/man
 pkg
 rdoc
 vendor
-
-# Test / misc
-coverage
 spec/reports
 test/tmp
 test/version_tmp
