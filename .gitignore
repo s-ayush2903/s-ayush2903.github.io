@@ -1,31 +1,36 @@
 # OS X
 .DS_Store
 
-# Jekyll build
+# Astro build output & generated types
+dist/
+.astro/
+
+# Jekyll (legacy)
 /_site/
 .jekyll-metadata
-#Gemfile.lock
 
-# webstorm
+# IDE
 .idea/
-
-# others
 *.swp
 
-# site build
+# Dependencies
+node_modules
+
+# Ruby / Bundler (legacy)
 *.gem
 *.rbc
 .bundle
 .config
-coverage
+Gemfile.lock
 InstalledFiles
 lib/bundler/man
 pkg
 rdoc
+vendor
+
+# Test / misc
+coverage
 spec/reports
 test/tmp
 test/version_tmp
 tmp
-vendor
-Gemfile.lock
-node_modules

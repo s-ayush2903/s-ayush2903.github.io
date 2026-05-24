@@ -1,2 +1,0 @@
-import{e,a_ as s,bn as o,K as i,b8 as g}from"./mermaid.core._tW3K6dP.js";import{p}from"./treemap-GDKQZRPO.Dq-QaEOD.js";var v={parse:e(async r=>{const a=await p("info",r);s.debug(a)},"parse")},d={version:g.version+""},c=e(()=>d.version,"getVersion"),m={getVersion:c},f=e((r,a,n)=>{s.debug(`rendering info diagram
-`+r);const t=o(a);i(t,100,400,!0),t.append("g").append("text").attr("x",100).attr("y",40).attr("class","version").attr("font-size",32).style("text-anchor","middle").text(`v${n}`)},"draw"),l={draw:f},x={parser:v,db:m,renderer:l};export{x as diagram};
