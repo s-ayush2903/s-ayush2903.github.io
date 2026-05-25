@@ -79,6 +79,8 @@ export default function MermaidIsland() {
         startOnLoad: false,
         theme: isDark ? 'dark' : 'neutral',
         fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
+        // #cccccc on #585858 is 4.43:1 — just below WCAG AA (4.5:1). Use a darker bg.
+        themeVariables: isDark ? { edgeLabelBackground: '#4a4a4a' } : {},
       });
 
       targets.forEach(async ({ element, source }, i) => {
