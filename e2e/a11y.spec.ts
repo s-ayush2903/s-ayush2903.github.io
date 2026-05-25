@@ -34,6 +34,11 @@ test('blog post dark mode — no new violations', async ({ page }) => {
   test.slow();
   await page.goto('/blog/2026-01-30-processes-abstraction');
   await page.locator('select[aria-label="Select colour theme"]').waitFor({ state: 'visible' });
+  // Reset to a known light state so the toggle reliably ends in dark regardless of OS preference
+  await page.evaluate(() => {
+    localStorage.removeItem('theme');
+    document.documentElement.classList.remove('dark');
+  });
   await page.getByLabel('Toggle theme').click();
   await expect(page.locator('html')).toHaveClass(/dark/);
 
