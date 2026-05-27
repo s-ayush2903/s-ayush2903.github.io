@@ -10,7 +10,10 @@ interface Props {
 }
 
 export default function BlogListIsland({ posts }: Props) {
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    return new URLSearchParams(window.location.search).get('tag');
+  });
   const [sortBy, setSortBy] = useState<SortBy>('newest');
 
   const allTags = useMemo(
@@ -25,7 +28,14 @@ export default function BlogListIsland({ posts }: Props) {
   }, [posts, activeTag, sortBy]);
 
   const toggleTag = (tag: string) => {
-    setActiveTag(prev => (prev === tag ? null : tag));
+    setActiveTag(prev => {
+      const next = prev === tag ? null : tag;
+      const url = new URL(window.location.href);
+      if (next) url.searchParams.set('tag', next);
+      else url.searchParams.delete('tag');
+      window.history.replaceState({}, '', url.toString());
+      return next;
+    });
   };
 
   return (
@@ -48,7 +58,12 @@ export default function BlogListIsland({ posts }: Props) {
         ))}
         {activeTag && (
           <button
-            onClick={() => setActiveTag(null)}
+            onClick={() => {
+              const url = new URL(window.location.href);
+              url.searchParams.delete('tag');
+              window.history.replaceState({}, '', url.toString());
+              setActiveTag(null);
+            }}
             className="font-mono text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
           >
             clear
