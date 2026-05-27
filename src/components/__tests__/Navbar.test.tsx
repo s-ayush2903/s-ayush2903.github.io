@@ -63,7 +63,7 @@ describe('Navbar', () => {
     renderNavbar();
     const select = screen.getByLabelText('Select colour theme') as HTMLSelectElement;
     expect(select).toBeInTheDocument();
-    expect(select.value).toBe('default');
+    expect(select.value).toBe('rose-pine');
   });
 
   it('sets data-theme attribute when palette changes', () => {
@@ -78,14 +78,6 @@ describe('Navbar', () => {
     const select = screen.getByLabelText('Select colour theme');
     fireEvent.change(select, { target: { value: 'nord' } });
     expect(localStorage.getItem('palette')).toBe('nord');
-  });
-
-  it('removes data-theme when palette reset to default', () => {
-    renderNavbar();
-    const select = screen.getByLabelText('Select colour theme');
-    fireEvent.change(select, { target: { value: 'gruvbox' } });
-    fireEvent.change(select, { target: { value: 'default' } });
-    expect(document.documentElement.getAttribute('data-theme')).toBeNull();
   });
 
   it('restores palette from localStorage on mount', () => {
@@ -112,17 +104,29 @@ describe('Navbar', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBe('rose-pine');
   });
 
-  it('renders all five palette options', () => {
+  it('renders all four palette options', () => {
     renderNavbar();
     const select = screen.getByLabelText('Select colour theme') as HTMLSelectElement;
     const options = Array.from(select.options).map(o => o.value);
-    expect(options).toEqual(['default', 'rose-pine', 'gruvbox', 'nord', 'one-dark']);
+    expect(options).toEqual(['rose-pine', 'gruvbox', 'nord', 'one-dark']);
   });
 
   it('renders human-readable palette labels', () => {
     renderNavbar();
     const select = screen.getByLabelText('Select colour theme') as HTMLSelectElement;
     const labels = Array.from(select.options).map(o => o.text);
-    expect(labels).toEqual(['Default', 'Rosé Pine', 'Gruvbox', 'Nord', 'One Dark Pro']);
+    expect(labels).toEqual(['Rosé Pine', 'Gruvbox', 'Nord', 'One Dark Pro']);
+  });
+
+  it('fresh mount sets data-theme to rose-pine on html element', () => {
+    renderNavbar();
+    expect(document.documentElement.getAttribute('data-theme')).toBe('rose-pine');
+  });
+
+  it('does not include a Default option in the palette dropdown', () => {
+    renderNavbar();
+    const select = screen.getByLabelText('Select colour theme') as HTMLSelectElement;
+    const values = Array.from(select.options).map(o => o.value);
+    expect(values).not.toContain('default');
   });
 });
