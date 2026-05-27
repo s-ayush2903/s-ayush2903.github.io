@@ -8,7 +8,7 @@ async function waitForNavbar(page: import('@playwright/test').Page) {
   await page.waitForLoadState('networkidle');
   const select = page.getByLabel('Select colour theme');
   await expect(select).toBeVisible({ timeout: 10_000 });
-  await expect(select).toHaveValue('default', { timeout: 5_000 });
+  await expect(select).toHaveValue('rose-pine', { timeout: 5_000 });
 }
 
 test.describe('Theme switching', () => {
@@ -69,11 +69,22 @@ test.describe('Theme switching', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'rose-pine');
   });
 
-  test('resetting palette to Default removes data-theme', async ({ page }) => {
-    await page.getByLabel('Select colour theme').selectOption('one-dark');
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'one-dark');
+  test('rose-pine palette is active by default with empty localStorage', async ({ page }) => {
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'rose-pine');
+    await expect(page.getByLabel('Select colour theme')).toHaveValue('rose-pine');
+  });
 
-    await page.getByLabel('Select colour theme').selectOption('default');
-    await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+  test('Default option no longer appears in palette dropdown', async ({ page }) => {
+    const select = page.getByLabel('Select colour theme');
+    const options = await select.locator('option').allTextContents();
+    expect(options).not.toContain('Default');
+  });
+
+  test('fresh visitor gets rose-pine as active palette', async ({ page }) => {
+    await page.evaluate(() => localStorage.clear());
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'rose-pine');
+    await expect(page.getByLabel('Select colour theme')).toHaveValue('rose-pine');
   });
 });

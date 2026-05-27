@@ -18,11 +18,10 @@ function SunIcon() {
   );
 }
 
-const PALETTES = ['default', 'rose-pine', 'gruvbox', 'nord', 'one-dark'] as const;
+const PALETTES = ['rose-pine', 'gruvbox', 'nord', 'one-dark'] as const;
 type Palette = typeof PALETTES[number];
 
 const PALETTE_LABELS: Record<Palette, string> = {
-  'default':  'Default',
   'rose-pine':'Rosé Pine',
   'gruvbox':  'Gruvbox',
   'nord':     'Nord',
@@ -32,14 +31,12 @@ const PALETTE_LABELS: Record<Palette, string> = {
 function usePalette() {
   const [palette, setPaletteState] = useState<Palette>(() => {
     /* v8 ignore next -- SSR guard */
-    if (typeof window === 'undefined') return 'default';
-    return (localStorage.getItem('palette') as Palette) ?? 'default';
+    if (typeof window === 'undefined') return 'rose-pine';
+    return (localStorage.getItem('palette') as Palette) ?? 'rose-pine';
   });
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (palette === 'default') root.removeAttribute('data-theme');
-    else root.setAttribute('data-theme', palette);
+    document.documentElement.setAttribute('data-theme', palette);
     localStorage.setItem('palette', palette);
   }, [palette]);
 

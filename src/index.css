@@ -177,17 +177,17 @@
   --card-foreground:    248 17% 39%;
   --popover:             32 57% 95%;
   --popover-foreground: 248 17% 39%;
-  --primary:              4 52% 66%;   /* #d7827a  rose       */
+  --primary:            344 35% 42%;   /* #914656  dark rose, 6:1 contrast  */
   --primary-foreground:  32 57% 95%;
   --secondary:           25 38% 91%;
   --secondary-foreground:248 17% 39%;
   --muted:               25 38% 91%;
-  --muted-foreground:   276  8% 62%;   /* #9893a5             */
-  --accent:               4 52% 66%;
+  --muted-foreground:   252 10% 44%;   /* #696579  subtle, 5.1:1 contrast   */
+  --accent:             344 35% 42%;
   --accent-foreground:   32 57% 95%;
   --border:               6 11% 86%;   /* #dfdad9             */
   --input:                6 11% 86%;
-  --ring:                 4 52% 66%;
+  --ring:               344 35% 42%;
   --code-bg:             25 38% 91%;
   --code-border:          6 11% 86%;
 }
