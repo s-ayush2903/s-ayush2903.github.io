@@ -7,7 +7,7 @@ description: "How simple conflicting thoughts can lead to unprecedented unraveli
 
 This morning I reluctantly worked out at home despite having strong urge not to.
 Every set in initial 2 exercises was difficult to go through, because I had some
-distress that kept me worrying about, also it was 39 (deg C) outside since 9 AM
+distress that kept me worrying about, also it was 39°C outside since 9 AM
 so I had even lesser will to go to the gym(where I never felt reluctance, maybe
 because I have to walk 1.6km). Regardless, I had one pushy feeling that was
 telling me to workout, because I recently continued it again, it was the 4th
@@ -43,12 +43,11 @@ you to relax due to some distress and the prefrontal cortex's signal to be
 consistent. Well, this is quite involved and difficult part. There have been
 studies(Libet's experiments in the 1980s showed neural activity preceding conscious awareness of a decision by several hundred milliseconds.)
 that show decision has already been made when the signals fire, and it
-is the _narrator_ the builds the _convincing story_ when it has to reason about it
-- confabulation.
+is the _narrator_ the builds the _convincing story_ when it has to reason about it - confabulation.
 
 Let's talk about both one by one.
 
-## Brain Anatomy
+## High Level Structure of the Brain
 The brain is largely divided into 2 parts, as seen from the top - hemispheres.
 It is like a walnut. Those two hemispheres are named as the left and right
 hemisphere. The left hemisphere is responsible for controlling the right side of
@@ -71,7 +70,7 @@ is surgically cut. The person sits in front of a screen and is asked to focus on
 a dot at the center. A word is flashed briefly on one side of the screen - so
 briefly that the eyes cannot move to follow it.
 
-### With the word "Spoon"
+### 1. With the word "Spoon"
 The word is flashed on the left side of the screen, so only the right hemisphere
 sees it. When asked what they saw, the person says "Nothing" or "I don't know" -
 because the language system lives in the left hemisphere, and the left hemisphere
@@ -87,22 +86,31 @@ The left hemisphere has no idea and reports nothing.
 One brain, two parallel, isolated streams of information.
 
 To summarize:
+
 | Entity          | Hemisphere |
-| --------------- | ---------- |
+|-----------------|------------|
 | Word "spoon"    | Right      |
 | Left hand       | Right      |
 | Language system | Left       |
 
-### The Walk Experiment
+### 2. The Walk Experiment
 They flash the word "walk" to the right hemisphere only. The person stands up
 and starts walking. When asked verbally "Why did you start walking?", the left
 hemisphere answers "To stretch my legs" or "I felt like it" - but never "I don't
 know." It made up a reason, confidently, in real time. There was no sense of
 lying. It felt like a genuine explanation.
 
-_This_ is the _narrator_. The left hemisphere's language system, when confronted
+_This_ is the _Narrator_. The left hemisphere's language system, when confronted
 with a behavior it did not cause and does not understand, automatically generates
 a plausible story and presents it as truth.
+
+To summarize:
+
+| Entity              | Hemisphere |
+|---------------------|------------|
+| Word "walk"         | Right      |
+| Left leg / body     | Right      |
+| Language system     | Left       |
 
 ## Narrator
 In a normal brain with an intact corpus callosum, this is happening constantly -
@@ -180,6 +188,7 @@ where one couldn't justify their actions, it would have become really difficult 
 (consider example: "why did you take more food?")
 
 
+## Closing Thoughts
 This system developed and evolved over millions of years, exists within us, and we rarely think about it.
 
 I started the morning just trying to get through a workout.
