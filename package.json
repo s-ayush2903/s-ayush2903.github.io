@@ -8,6 +8,7 @@
   },
   "scripts": {
     "postinstall": "node scripts/copy-fonts.cjs",
+    "gen:assets": "node scripts/gen-assets.cjs",
     "dev": "astro dev",
     "build": "astro build",
     "lint": "eslint .",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
+    "@resvg/resvg-js": "^2.6.2",
     "@eslint/js": "9.32.0",
     "@fontsource/ibm-plex-mono": "5.2.7",
     "@fontsource/ibm-plex-sans": "5.2.8",
