@@ -1,1 +1,12 @@
 * text eol=lf
+
+# Binary files — must not receive line-ending normalisation
+*.png binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
